@@ -1,0 +1,10 @@
+language: java
+
+jdk:
+ - oraclejdk8
+
+script:
+ - gradle build jacocoTestReport
+
+after_success:
+- gradle coveralls
