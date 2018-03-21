@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <simulation dimensions="2">
 	<description lang="en">This simulation uses a pillar-shaped simulation
-		room and starts the simulation with an air-like fuild with no
+		room and starts the simulation with an air-like fluid with no
 		initial velocity. A gravity constraint is set up for the entire
 		simulation. After stabilisation of the fluid the entire weight
-		plus the fuilds pressure should rest on the bottom section.
+		plus the fluids pressure should rest on the bottom section.
 	</description>
 	<outline>
 		<section>
