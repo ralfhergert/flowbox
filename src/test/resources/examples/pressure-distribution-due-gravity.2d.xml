@@ -13,7 +13,7 @@
 			<edge><vertex x="1" y="10"/><vertex x="1" y="0"/></edge>
 		</section>
 		<section name="bottom">
-			<edge><vertex x="0" y="0"/><vertex x="0" y="1"/></edge>
+			<edge><vertex x="0" y="0"/><vertex x="1" y="0"/></edge>
 		</section>
 	</outline>
 </simulation>
