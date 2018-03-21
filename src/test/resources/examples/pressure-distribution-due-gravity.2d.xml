@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<simulation dimensions="2">
+	<description lang="en">This simulation uses a pillar-shaped simulation
+		room and starts the simulation with an air-like fuild with no
+		initial velocity. A gravity constraint is set up for the entire
+		simulation. After stabilisation of the fluid the entire weight
+		plus the fuilds pressure should rest on the bottom section.
+	</description>
+	<outline>
+		<section>
+			<edge><vertex x="0" y="0"/><vertex x="0" y="10"/></edge>
+			<edge><vertex x="0" y="10"/><vertex x="1" y="10"/></edge>
+			<edge><vertex x="1" y="10"/><vertex x="1" y="0"/></edge>
+		</section>
+		<section name="bottom">
+			<edge><vertex x="0" y="0"/><vertex x="0" y="1"/></edge>
+		</section>
+	</outline>
+</simulation>
