@@ -16,13 +16,13 @@ public class XmlParserTest {
 		final String fileName = "examples/pressure-distribution-due-gravity.2d.xml";
 		InputStream stream = getClass().getClassLoader().getResourceAsStream(fileName);
 		Assert.assertNotNull("resource file '" + fileName + "' could not be found. Was it renamed?", stream);
-		Simulation simulation = new XmlParser().parseFrom(stream);
+		XmlSimulation simulation = new XmlParser().parseFrom(stream);
 		Assert.assertNotNull("simulation should not be null", simulation);
 		Assert.assertEquals("dimensions should be", 2, simulation.getDimensions());
 		Assert.assertNotNull("descriptions should not be null", simulation.getDescriptions());
 		Assert.assertEquals("number of descriptions", 1, simulation.getDescriptions().size());
 		{
-			Description description = simulation.getDescriptions().get(0);
+			XmlDescription description = simulation.getDescriptions().get(0);
 			Assert.assertNotNull("description should not be null", description);
 			Assert.assertEquals("language of description", "en", description.getLanguage());
 			Assert.assertNotNull("description text is not null", description.getText());
@@ -30,12 +30,12 @@ public class XmlParserTest {
 			Assert.assertTrue("text of description should start with '" + beginning + "'", description.getText().startsWith(beginning));
 		}
 		{
-			Outline outline = simulation.getOutline();
+			XmlOutline outline = simulation.getOutline();
 			Assert.assertNotNull("outline should not be null", outline);
 			Assert.assertNotNull("sections should not be null", outline.getSections());
 			Assert.assertEquals("number of sections", 2, outline.getSections().size());
 			{
-				Section section = outline.getSections().get(0);
+				XmlSection section = outline.getSections().get(0);
 				Assert.assertNotNull("first section should not be null", section);
 				Assert.assertEquals("first section has no name", null, section.getName());
 				Assert.assertNotNull("first section edges should not be null", section.getEdges());
@@ -45,7 +45,7 @@ public class XmlParserTest {
 				checkEdge(section.getEdges().get(2), 1, 10, null, 1, 0, null);
 			}
 			{
-				Section section = outline.getSections().get(1);
+				XmlSection section = outline.getSections().get(1);
 				Assert.assertNotNull("section should not be null", section);
 				Assert.assertEquals("section's name", "bottom", section.getName());
 				Assert.assertNotNull("section edges should not be null", section.getEdges());
@@ -55,7 +55,7 @@ public class XmlParserTest {
 		}
 	}
 
-	private static void checkEdge(Edge edge, double x1, double y1, Double z1, double x2, double y2, Double z2) {
+	private static void checkEdge(XmlEdge edge, double x1, double y1, Double z1, double x2, double y2, Double z2) {
 		Assert.assertNotNull("edge should not be null", edge);
 		Assert.assertNotNull("vertices should not be null", edge.getVertices());
 		Assert.assertEquals("number of vertices should be", 2, edge.getVertices().size());

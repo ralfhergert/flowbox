@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlValue;
  * Description element.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Description {
+public class XmlDescription {
 
 	@XmlAttribute(name = "lang", required = true)
 	private String language;

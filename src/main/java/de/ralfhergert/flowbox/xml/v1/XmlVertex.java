@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  * A single vertex. Can be 2D or 3D.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Vertex {
+public class XmlVertex {
 
 	@XmlAttribute(required = true)
 	private double x;

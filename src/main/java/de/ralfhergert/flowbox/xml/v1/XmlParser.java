@@ -14,13 +14,13 @@ public class XmlParser {
 
 	public XmlParser() {
 		try {
-			unmarshaller = JAXBContext.newInstance(Simulation.class).createUnmarshaller();
+			unmarshaller = JAXBContext.newInstance(XmlSimulation.class).createUnmarshaller();
 		} catch (JAXBException e) {
 			throw new IllegalArgumentException("could not instantiate unmarshaller", e);
 		}
 	}
 
-	public Simulation parseFrom(InputStream stream) throws JAXBException {
-		return (Simulation)unmarshaller.unmarshal(stream);
+	public XmlSimulation parseFrom(InputStream stream) throws JAXBException {
+		return (XmlSimulation)unmarshaller.unmarshal(stream);
 	}
 }

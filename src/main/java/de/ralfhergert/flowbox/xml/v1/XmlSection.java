@@ -10,19 +10,19 @@ import java.util.List;
  * Section with multiple edges.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Section {
+public class XmlSection {
 
 	@XmlAttribute
 	private String name;
 
 	@XmlElement(name = "edge")
-	private List<Edge> edges;
+	private List<XmlEdge> edges;
 
 	public String getName() {
 		return name;
 	}
 
-	public List<Edge> getEdges() {
+	public List<XmlEdge> getEdges() {
 		return edges;
 	}
 }

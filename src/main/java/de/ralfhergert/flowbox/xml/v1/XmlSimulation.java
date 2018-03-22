@@ -8,26 +8,26 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "simulation")
-public class Simulation {
+public class XmlSimulation {
 
 	@XmlAttribute(required = true)
 	private int dimensions;
 
 	@XmlElement(name = "description")
-	private List<Description> descriptions;
+	private List<XmlDescription> descriptions;
 
 	@XmlElement
-	private Outline outline;
+	private XmlOutline outline;
 
 	public int getDimensions() {
 		return dimensions;
 	}
 
-	public List<Description> getDescriptions() {
+	public List<XmlDescription> getDescriptions() {
 		return descriptions;
 	}
 
-	public Outline getOutline() {
+	public XmlOutline getOutline() {
 		return outline;
 	}
 }

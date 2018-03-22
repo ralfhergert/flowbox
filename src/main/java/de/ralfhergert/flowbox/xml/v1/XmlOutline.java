@@ -6,15 +6,15 @@ import javax.xml.bind.annotation.XmlElement;
 import java.util.List;
 
 /**
- * A single edge with vertices.
+ * Outline with multiple sections.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Edge {
+public class XmlOutline {
 
-	@XmlElement(name = "vertex")
-	private List<Vertex> vertices;
+	@XmlElement(name = "section")
+	private List<XmlSection> sections;
 
-	public List<Vertex> getVertices() {
-		return vertices;
+	public List<XmlSection> getSections() {
+		return sections;
 	}
 }
