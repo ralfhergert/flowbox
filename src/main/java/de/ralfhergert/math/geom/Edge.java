@@ -1,6 +1,7 @@
 package de.ralfhergert.math.geom;
 
 import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * An edge is leading from one vertex to another.
@@ -19,6 +20,10 @@ public class Edge {
 		}
 		vertices[0] = vertex1;
 		vertices[1] = vertex2;
+	}
+
+	public Collection<Vertex> getVertices() {
+		return Arrays.asList(vertices);
 	}
 
 	@Override
