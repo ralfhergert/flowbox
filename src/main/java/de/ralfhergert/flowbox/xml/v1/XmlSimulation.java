@@ -23,11 +23,21 @@ public class XmlSimulation {
 		return dimensions;
 	}
 
+	public XmlSimulation setDimension(int dimension) {
+		this.dimensions = dimension;
+		return this;
+	}
+
 	public List<XmlDescription> getDescriptions() {
 		return descriptions;
 	}
 
 	public XmlOutline getOutline() {
 		return outline;
+	}
+
+	public XmlSimulation setOutline(XmlOutline outline) {
+		this.outline = outline;
+		return this;
 	}
 }
