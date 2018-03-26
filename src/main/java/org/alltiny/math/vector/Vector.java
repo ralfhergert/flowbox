@@ -18,7 +18,7 @@ public class Vector {
 
 	/** Copy-Constructor */
 	public Vector(Vector vector) {
-		this.values = vector.values;
+		this.values = Arrays.copyOf(vector.values, vector.values.length);
 	}
 
 	/** Creates a 0-vector with the given dimension. */
