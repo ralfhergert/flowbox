@@ -24,7 +24,6 @@ public class FlowBoxTest {
 	 * This test verifies that FlowBox is coming to an end.
 	 */
 	@Test
-	@Ignore("the 2D-extruder has a bug and misses out the faces for z=-0.5 and z=0.5")
 	public void testDoneResultIsGiven() {
 		Result result = new FlowBox().runFromStream(getClass().getClassLoader().getResourceAsStream("examples/single-particle-floating-with-gravity.2d.xml"));
 		Assert.assertNotNull("result should not be null", result);

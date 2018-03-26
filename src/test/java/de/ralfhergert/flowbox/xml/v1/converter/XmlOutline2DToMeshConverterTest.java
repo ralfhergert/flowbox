@@ -69,7 +69,28 @@ public class XmlOutline2DToMeshConverterTest {
 	}
 
 	@Test
-	public void testOnConversionSectionNameIsTransferedToFace() {
+	public void testConvertingSingleSectionIntoCube() {
+		Mesh mesh = new XmlOutline2DToMeshConverter().convert(new XmlOutline()
+			.addSection(new XmlSection()
+				.addEdge(new XmlEdge()
+					.addVertex(new XmlVertex().setX(-0.5).setY(-0.5).setZ(null))
+					.addVertex(new XmlVertex().setX(+0.5).setY(-0.5).setZ(null)))
+				.addEdge(new XmlEdge()
+					.addVertex(new XmlVertex().setX(+0.5).setY(-0.5).setZ(null))
+					.addVertex(new XmlVertex().setX(+0.5).setY(+0.5).setZ(null)))
+				.addEdge(new XmlEdge()
+					.addVertex(new XmlVertex().setX(+0.5).setY(+0.5).setZ(null))
+					.addVertex(new XmlVertex().setX(-0.5).setY(+0.5).setZ(null)))
+				.addEdge(new XmlEdge()
+					.addVertex(new XmlVertex().setX(-0.5).setY(+0.5).setZ(null))
+					.addVertex(new XmlVertex().setX(-0.5).setY(-0.5).setZ(null)))));
+		Assert.assertNotNull("mesh should not be null", mesh);
+		Assert.assertEquals("mesh should have six faces", 6, mesh.getFaces().size());
+		Assert.assertTrue("mesh should not have leaks/should be closed", mesh.isImpermeable());
+	}
+
+	@Test
+	public void testOnConversionSectionNameIsTransferredToFace() {
 		// create an outline with a section with a name.
 		Mesh mesh = new XmlOutline2DToMeshConverter().convert(new XmlOutline()
 			.addSection(new XmlSection()
