@@ -1,6 +1,7 @@
 package de.ralfhergert.math.geom;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /***
  * A mesh consisting of multiple faces.
@@ -22,12 +23,11 @@ public class Mesh {
 	}
 
 	/**
-	 * This method checks whether all adjacent faces of the mesh connect
-	 * at their edges. In other words it checks whether the mesh has leaks.
-	 *
-	 * @return true if this mesh has no leaks
+	 * This method builds a lookup map for all edges in this mesh.
+	 * @see #isImpermeable()
+	 * @see #getOpenEdges()
 	 */
-	public boolean isImpermeable() {
+	public Map<UnidirectionalEdge,List<Edge>> buildEdgeLookupMap() {
 		final Map<UnidirectionalEdge,List<Edge>> edgeLookup = new HashMap<>();
 		// build a lookup map.
 		faces.stream()
@@ -40,6 +40,17 @@ public class Mesh {
 					edgeLookup.put(unidirectionalEdge, new ArrayList<>(Collections.singletonList(edge)));
 				}
 			});
+		return edgeLookup;
+	}
+
+	/**
+	 * This method checks whether all adjacent faces of the mesh connect
+	 * at their edges. In other words it checks whether the mesh has leaks.
+	 *
+	 * @return true if this mesh has no leaks
+	 */
+	public boolean isImpermeable() {
+		final Map<UnidirectionalEdge,List<Edge>> edgeLookup = buildEdgeLookupMap();
 		// analyze the lookup map.
 		if (edgeLookup.isEmpty()) {
 			return false;
@@ -51,5 +62,17 @@ public class Mesh {
 			}
 		}
 		return true; // if this point is reached all checks have been positive - meaning the mesh has no leaks.
+	}
+
+	/**
+	 * This method returns all edges which have no connecting edge.
+	 */
+	public Set<Edge> getOpenEdges() {
+		return buildEdgeLookupMap()
+			.entrySet()
+			.stream()
+			.filter(entry -> entry.getValue().size() != 2)
+			.flatMap(entry -> entry.getValue().stream())
+			.collect(Collectors.toSet());
 	}
 }

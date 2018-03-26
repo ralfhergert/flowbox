@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<simulation dimensions="2">
+	<!-- TODO: create a 3D definition of this simulation. -->
+	<description lang="en">This simulation uses a cube-shaped simulation
+		room and places a single particle inside. The expected result is
+		that the particle center should remain close to the simulation
+		room center. Due to gravity is should be a bit below the room
+		center.
+	</description>
+	<outline>
+		<section>
+			<edge><vertex x="-0.5" y="-0.5"/><vertex x="+0.5" y="-0.5"/></edge>
+			<edge><vertex x="+0.5" y="-0.5"/><vertex x="+0.5" y="+0.5"/></edge>
+			<edge><vertex x="+0.5" y="+0.5"/><vertex x="-0.5" y="+0.5"/></edge>
+			<edge><vertex x="-0.5" y="+0.5"/><vertex x="-0.5" y="-0.5"/></edge>
+		</section>
+	</outline>
+	<!-- constraints: use a gravity constraint -->
+	<!-- initialization: place a single particle in the middle -->
+</simulation>

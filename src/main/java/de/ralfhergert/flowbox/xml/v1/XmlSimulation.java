@@ -1,5 +1,6 @@
 package de.ralfhergert.flowbox.xml.v1;
 
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.*;
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class XmlSimulation {
 	@XmlElement(name = "description")
 	private List<XmlDescription> descriptions;
 
+	@NotNull
 	@XmlElement
 	private XmlOutline outline;
 
