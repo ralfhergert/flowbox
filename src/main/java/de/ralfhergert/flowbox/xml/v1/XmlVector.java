@@ -5,23 +5,25 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 /**
- * A single vertex. Can be 2D or 3D.
+ * Description element.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class XmlVertex {
+public class XmlVector {
 
 	@XmlAttribute(required = true)
-	private double x = 0;
+	private double x;
+
 	@XmlAttribute(required = true)
-	private double y = 0;
-	@XmlAttribute
-	private double z = 0;
+	private double y;
+
+	@XmlAttribute(required = true)
+	private double z;
 
 	public double getX() {
 		return x;
 	}
 
-	public XmlVertex setX(double x) {
+	public XmlVector setX(double x) {
 		this.x = x;
 		return this;
 	}
@@ -30,7 +32,7 @@ public class XmlVertex {
 		return y;
 	}
 
-	public XmlVertex setY(double y) {
+	public XmlVector setY(double y) {
 		this.y = y;
 		return this;
 	}
@@ -39,9 +41,8 @@ public class XmlVertex {
 		return z;
 	}
 
-	public XmlVertex setZ(double z) {
+	public XmlVector setZ(double z) {
 		this.z = z;
 		return this;
 	}
-
 }

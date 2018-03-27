@@ -21,6 +21,12 @@ public class XmlSimulation {
 	@XmlElement
 	private XmlOutline outline;
 
+	@XmlElementWrapper(name = "initialization")
+	@XmlElements({
+		@XmlElement(name = "fillOutlineWithParticles", type = XmlFillOutlineWithParticles.class)
+	})
+	private List<XmlInitialization> initializations;
+
 	public int getDimensions() {
 		return dimensions;
 	}

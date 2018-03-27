@@ -54,6 +54,7 @@ public class FlowBox {
 		if (!simulation.getOutline().isImpermeable()) {
 			return new SimulationOutlineIsLeaking("simulation outline is not a closed mesh", simulation.getOutline().getOpenEdges());
 		}
+		LOG.trace("trying to initialize");
 		return new Result(false, "Done");
 	}
 

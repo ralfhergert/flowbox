@@ -17,4 +17,13 @@
 	</outline>
 	<!-- constraints: use a gravity constraint -->
 	<!-- initialization: place a single particle in the middle -->
+	<initialization>
+		<fillOutlineWithParticles
+			numberOfParticles="1"
+			density="1.2041"
+			temperature="293">
+			<position x="0" y="0" z="0"/>
+			<velocity x="0" y="0" z="0"/>
+		</fillOutlineWithParticles>
+	</initialization>
 </simulation>

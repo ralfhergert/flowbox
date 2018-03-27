@@ -46,8 +46,8 @@ public class XmlOutline2DToMeshConverterTest {
 	public void testConvertingSingleSectionResultsInMeshWithOneFace() {
 		Mesh mesh = new XmlOutline2DToMeshConverter().convert(new XmlOutline()
 			.addSection(new XmlSection().addEdge(new XmlEdge()
-				.addVertex(new XmlVertex().setX(1).setY(2).setZ(null))
-				.addVertex(new XmlVertex().setX(3).setY(4).setZ(null)))));
+				.addVertex(new XmlVertex().setX(1).setY(2))
+				.addVertex(new XmlVertex().setX(3).setY(4)))));
 		Assert.assertNotNull("mesh should not be null", mesh);
 		Assert.assertEquals("mesh should have one face", 1, mesh.getFaces().size());
 		Face face = mesh.getFaces().get(0);
@@ -73,17 +73,17 @@ public class XmlOutline2DToMeshConverterTest {
 		Mesh mesh = new XmlOutline2DToMeshConverter().convert(new XmlOutline()
 			.addSection(new XmlSection()
 				.addEdge(new XmlEdge()
-					.addVertex(new XmlVertex().setX(-0.5).setY(-0.5).setZ(null))
-					.addVertex(new XmlVertex().setX(+0.5).setY(-0.5).setZ(null)))
+					.addVertex(new XmlVertex().setX(-0.5).setY(-0.5))
+					.addVertex(new XmlVertex().setX(+0.5).setY(-0.5)))
 				.addEdge(new XmlEdge()
-					.addVertex(new XmlVertex().setX(+0.5).setY(-0.5).setZ(null))
-					.addVertex(new XmlVertex().setX(+0.5).setY(+0.5).setZ(null)))
+					.addVertex(new XmlVertex().setX(+0.5).setY(-0.5))
+					.addVertex(new XmlVertex().setX(+0.5).setY(+0.5)))
 				.addEdge(new XmlEdge()
-					.addVertex(new XmlVertex().setX(+0.5).setY(+0.5).setZ(null))
-					.addVertex(new XmlVertex().setX(-0.5).setY(+0.5).setZ(null)))
+					.addVertex(new XmlVertex().setX(+0.5).setY(+0.5))
+					.addVertex(new XmlVertex().setX(-0.5).setY(+0.5)))
 				.addEdge(new XmlEdge()
-					.addVertex(new XmlVertex().setX(-0.5).setY(+0.5).setZ(null))
-					.addVertex(new XmlVertex().setX(-0.5).setY(-0.5).setZ(null)))));
+					.addVertex(new XmlVertex().setX(-0.5).setY(+0.5))
+					.addVertex(new XmlVertex().setX(-0.5).setY(-0.5)))));
 		Assert.assertNotNull("mesh should not be null", mesh);
 		Assert.assertEquals("mesh should have six faces", 6, mesh.getFaces().size());
 		Assert.assertTrue("mesh should not have leaks/should be closed", mesh.isImpermeable());

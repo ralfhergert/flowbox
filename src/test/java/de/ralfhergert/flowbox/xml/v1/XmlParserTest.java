@@ -40,9 +40,9 @@ public class XmlParserTest {
 				Assert.assertEquals("first section has no name", null, section.getName());
 				Assert.assertNotNull("first section edges should not be null", section.getEdges());
 				Assert.assertEquals("number of edges", 3, section.getEdges().size());
-				checkEdge(section.getEdges().get(0), 0, 0, null, 0, 10, null);
-				checkEdge(section.getEdges().get(1), 0, 10, null, 1, 10, null);
-				checkEdge(section.getEdges().get(2), 1, 10, null, 1, 0, null);
+				checkEdge(section.getEdges().get(0), 0, 0, 0, 0, 10, 0);
+				checkEdge(section.getEdges().get(1), 0, 10, 0, 1, 10, 0);
+				checkEdge(section.getEdges().get(2), 1, 10, 0, 1, 0, 0);
 			}
 			{
 				XmlSection section = outline.getSections().get(1);
@@ -50,20 +50,20 @@ public class XmlParserTest {
 				Assert.assertEquals("section's name", "bottom", section.getName());
 				Assert.assertNotNull("section edges should not be null", section.getEdges());
 				Assert.assertEquals("number of edges", 1, section.getEdges().size());
-				checkEdge(section.getEdges().get(0), 0, 0, null, 1, 0, null);
+				checkEdge(section.getEdges().get(0), 0, 0, 0, 1, 0, 0);
 			}
 		}
 	}
 
-	private static void checkEdge(XmlEdge edge, double x1, double y1, Double z1, double x2, double y2, Double z2) {
+	private static void checkEdge(XmlEdge edge, double x1, double y1, double z1, double x2, double y2, double z2) {
 		Assert.assertNotNull("edge should not be null", edge);
 		Assert.assertNotNull("vertices should not be null", edge.getVertices());
 		Assert.assertEquals("number of vertices should be", 2, edge.getVertices().size());
 		Assert.assertEquals("x of vertex 1", x1, edge.getVertices().get(0).getX(), 0.000001);
 		Assert.assertEquals("y of vertex 1", y1, edge.getVertices().get(0).getY(), 0.000001);
-		Assert.assertEquals("z of vertex 1", z1, edge.getVertices().get(0).getZ());
+		Assert.assertEquals("z of vertex 1", z1, edge.getVertices().get(0).getZ(), 0.000001);
 		Assert.assertEquals("x of vertex 2", x2, edge.getVertices().get(1).getX(), 0.000001);
 		Assert.assertEquals("y of vertex 2", y2, edge.getVertices().get(1).getY(), 0.000001);
-		Assert.assertEquals("z of vertex 2", z2, edge.getVertices().get(1).getZ());
+		Assert.assertEquals("z of vertex 2", z2, edge.getVertices().get(1).getZ(), 0.000001);
 	}
 }
