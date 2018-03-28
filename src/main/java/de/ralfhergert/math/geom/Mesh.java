@@ -75,4 +75,20 @@ public class Mesh {
 			.flatMap(entry -> entry.getValue().stream())
 			.collect(Collectors.toSet());
 	}
+
+	/**
+	 * This method finds all adjacent faces to the given face.
+	 */
+	public Set<Face> findAdjacentFaces(Face face) {
+		final Map<UnidirectionalEdge,List<Edge<Face>>> edgeLookup = buildEdgeLookupMap();
+		final Set<Face> adjacentFaces = new HashSet<>();
+		for (Edge<Face> edge : face.getEdges()) {
+			for (Edge<Face> foundEdge : edgeLookup.get(new UnidirectionalEdge(edge))) {
+				if (!face.equals(foundEdge.getParent())) {
+					adjacentFaces.add(foundEdge.getParent());
+				}
+			}
+		}
+		return adjacentFaces;
+	}
 }

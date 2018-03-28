@@ -4,7 +4,6 @@ import org.alltiny.math.vector.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -104,5 +103,47 @@ public class MeshTest {
 			Assert.assertEquals("all open edges should be on z=0", 0, edge.getVertices().get(1).getPosition().get(2), 0.000001);
 		}
 		Assert.assertFalse("pyramid should be considered leaky", pyramid.isImpermeable());
+	}
+
+	@Test
+	public void testFindAdjacentFacesOfCube() {
+		Face bottom = new Face() // z=0
+			.addVertex(new Vertex(new Vector(0, 0, 0)))
+			.addVertex(new Vertex(new Vector(1, 0, 0)))
+			.addVertex(new Vertex(new Vector(1, 1, 0)))
+			.addVertex(new Vertex(new Vector(0, 1, 0)));
+		Face top = new Face() // z=1
+			.addVertex(new Vertex(new Vector(0, 0, 1)))
+			.addVertex(new Vertex(new Vector(1, 0, 1)))
+			.addVertex(new Vertex(new Vector(1, 1, 1)))
+			.addVertex(new Vertex(new Vector(0, 1, 1)));
+		Mesh cube = new Mesh()
+			.addFace(bottom)
+			.addFace(top)
+			.addFace(new Face() // y=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 1)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // y=1
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 1)))
+				.addVertex(new Vertex(new Vector(0, 1, 1))))
+			.addFace(new Face() // x=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 1)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // x=1
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 1)))
+				.addVertex(new Vertex(new Vector(1, 0, 1))));
+		Set<Face> sides = cube.findAdjacentFaces(bottom);
+		Assert.assertNotNull("set of faces should not be null", sides);
+		Assert.assertEquals("number of found side faces", 4, sides.size());
+		Assert.assertFalse("set should not contain bottom face", sides.contains(bottom));
+		Assert.assertFalse("set should not contain top face", sides.contains(top));
 	}
 }
