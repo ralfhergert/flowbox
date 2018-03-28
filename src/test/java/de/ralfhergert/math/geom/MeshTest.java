@@ -4,6 +4,7 @@ import org.alltiny.math.vector.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -145,5 +146,57 @@ public class MeshTest {
 		Assert.assertEquals("number of found side faces", 4, sides.size());
 		Assert.assertFalse("set should not contain bottom face", sides.contains(bottom));
 		Assert.assertFalse("set should not contain top face", sides.contains(top));
+	}
+
+	@Test
+	public void testMakeInconsistentMeshConsistent() {
+		// create a mesh with two faces which have normals pointing into the opposing directions.
+		Mesh mesh = new Mesh()
+			.addFace(new Face()
+				.addVertex(new Vertex(new Vector(0, -1, 0)))
+				.addVertex(new Vertex(new Vector(0,  1, 0)))
+				.addVertex(new Vertex(new Vector(1,  0, 0))))
+			.addFace(new Face()
+				.addVertex(new Vertex(new Vector( 0, -1, 0)))
+				.addVertex(new Vertex(new Vector( 0,  1, 0)))
+				.addVertex(new Vertex(new Vector(-1,  0, 0))));
+		Assert.assertFalse("mesh should be inconsistent", mesh.isConsistent());
+		mesh.makeFaceNormalsConsistent();
+		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+	}
+
+	@Test
+	public void testMakeConsistentMeshConsistent() {
+		// create a consistent mesh with two faces.
+		Mesh mesh = new Mesh()
+			.addFace(new Face()
+				.addVertex(new Vertex(new Vector(0, -1, 0)))
+				.addVertex(new Vertex(new Vector(0,  1, 0)))
+				.addVertex(new Vertex(new Vector(1,  0, 0))))
+			.addFace(new Face()
+				.addVertex(new Vertex(new Vector( 0,  1, 0)))
+				.addVertex(new Vertex(new Vector( 0, -1, 0)))
+				.addVertex(new Vertex(new Vector(-1,  0, 0))));
+		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+		mesh.makeFaceNormalsConsistent();
+		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+	}
+
+	@Test
+	public void testCallMakeConsistentOnEmptyMeshRaisesNoErrors() {
+		Mesh mesh = new Mesh().makeFaceNormalsConsistent();
+		Assert.assertTrue("empty mesh should be considered consistent", mesh.isConsistent());
+	}
+
+	@Test
+	public void testCallMakeConsistentWithNullTrustedFacesToStartDoesNotRaiseAnyErrors() {
+		Mesh mesh = new Mesh().makeAdjacentFacesNormalsConsistent(null, null);
+		Assert.assertTrue("empty mesh should be considered consistent", mesh.isConsistent());
+	}
+
+	@Test
+	public void testCallMakeConsistentWithEmptyTrustedFacesToStartDoesNotRaiseAnyErrors() {
+		Mesh mesh = new Mesh().makeAdjacentFacesNormalsConsistent(new ArrayList<>(), null);
+		Assert.assertTrue("empty mesh should be considered consistent", mesh.isConsistent());
 	}
 }

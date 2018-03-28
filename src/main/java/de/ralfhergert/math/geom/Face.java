@@ -45,9 +45,11 @@ public class Face {
 	}
 
 	/**
-	 * This method calculates the area of this face.
+	 * This method calculates the area as a vector.
+	 * Normalizing this vector will give the normal of this face.
+	 * The length of this vector is equal the area of this face.
 	 */
-	public double calcArea() {
+	public Vector calcAreaVector() {
 		if (vertices.size() > 1) {
 			final Vector p0 = vertices.get(0).getPosition();
 			Vector area = new Vector(p0.getDimension());
@@ -56,8 +58,70 @@ public class Face {
 				Vector p2 = vertices.get(i).getPosition().sub(p0);
 				area = area.add(p1.cross(p2).scale(0.5));
 			}
-			return area.getLength();
+			return area;
 		}
-		return 0;
+		return null;
+	}
+
+	/**
+	 * This method calculates the area of this face.
+	 * @see #calcAreaVector()
+	 */
+	public double calcArea() {
+		final Vector areaVector = calcAreaVector();
+		return areaVector != null ? areaVector.getLength() : 0;
+	}
+
+	/**
+	 * This method calculates the normal of this face.
+	 * @see #calcAreaVector()
+	 */
+	public Vector getNormal() {
+		final Vector areaVector = calcAreaVector();
+		if (areaVector == null) {
+			return null;
+		}
+		final double length = areaVector.getLength();
+		return length > 0 ? areaVector.scale(1 / length) : null;
+	}
+
+	public Map<UnidirectionalEdge,Edge<Face>> getUnidirectionalEdgeLookup() {
+		Map<UnidirectionalEdge,Edge<Face>> lookupMap = new HashMap<>();
+		for (Edge<Face> edge : getEdges()) {
+			lookupMap.put(new UnidirectionalEdge(edge), edge);
+		}
+		return lookupMap;
+	}
+
+	public enum NormalConsistency {
+		Consistent,
+		Inconsistent,
+		NotConnected
+	}
+
+	public NormalConsistency getNormalConsistentWith(Face other) {
+		final Map<UnidirectionalEdge,Edge<Face>> thisEdgeLookup = getUnidirectionalEdgeLookup();
+		final Map<UnidirectionalEdge,Edge<Face>> otherEdgeLookup = other.getUnidirectionalEdgeLookup();
+		// find the common unidirectional edge.
+		Set<UnidirectionalEdge> commonUnidirectionalEdge = thisEdgeLookup.keySet();
+		commonUnidirectionalEdge.retainAll(otherEdgeLookup.keySet());
+		if (commonUnidirectionalEdge.isEmpty()) {
+			return NormalConsistency.NotConnected;
+		}
+		// get both edges.
+		Edge<Face> thisEdge = thisEdgeLookup.get(commonUnidirectionalEdge.iterator().next());
+		Edge<Face> otherEdge = otherEdgeLookup.get(commonUnidirectionalEdge.iterator().next());
+		return thisEdge.getVertices().get(0).getPosition().equals(otherEdge.getVertices().get(1).getPosition())
+			? NormalConsistency.Consistent
+			: NormalConsistency.Inconsistent;
+	}
+
+	/**
+	 * This method reverses the order of vertices, which flips all edges and thereby
+	 * flips the normal of this face.
+	 */
+	public Face flipNormal() {
+		Collections.reverse(vertices);
+		return this;
 	}
 }
