@@ -3,7 +3,7 @@ package de.ralfhergert.flowbox.model;
 /**
  * Super-class for all initializations.
  */
-public interface Initialization {
+public interface Initializer {
 
 	void applyTo(Simulation simulation);
 }

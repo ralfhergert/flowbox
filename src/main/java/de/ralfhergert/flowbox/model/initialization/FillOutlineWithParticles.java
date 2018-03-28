@@ -1,6 +1,6 @@
 package de.ralfhergert.flowbox.model.initialization;
 
-import de.ralfhergert.flowbox.model.Initialization;
+import de.ralfhergert.flowbox.model.Initializer;
 import de.ralfhergert.flowbox.model.Simulation;
 import de.ralfhergert.math.geom.Vertex;
 import org.alltiny.math.vector.Vector;
@@ -8,7 +8,7 @@ import org.alltiny.math.vector.Vector;
 /**
  * This initializer fill the outline of the simulation with particles.
  */
-public class FillOutlineWithParticles implements Initialization {
+public class FillOutlineWithParticles implements Initializer {
 
 	private final int numberOfParticles;
 
