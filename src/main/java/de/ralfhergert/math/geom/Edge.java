@@ -1,7 +1,7 @@
 package de.ralfhergert.math.geom;
 
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,7 +24,7 @@ public class Edge<Parent> {
 		vertices[1] = vertex2;
 	}
 
-	public Collection<Vertex> getVertices() {
+	public List<Vertex> getVertices() {
 		return Arrays.asList(vertices);
 	}
 

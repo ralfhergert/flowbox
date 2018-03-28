@@ -4,6 +4,9 @@ import org.alltiny.math.vector.Vector;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * This test verifies that {@link Mesh} is working correctly.
  */
@@ -71,5 +74,35 @@ public class MeshTest {
 				.addVertex(new Vertex(new Vector(1, 1, 1)))
 				.addVertex(new Vertex(new Vector(1, 0, 1))));
 		Assert.assertTrue("a cube is a complete/leakless mesh and therefor impermeable", cube.isImpermeable());
+	}
+
+	@Test
+	public void testGetOpenEdgesOnLeakingPyramid() {
+		// build a pyramid with a missing bottom face.
+		Mesh pyramid = new Mesh()
+			.addFace(new Face() // x=-1
+				.addVertex(new Vertex(new Vector(-1, -1, 0)))
+				.addVertex(new Vertex(new Vector(-1,  1, 0)))
+				.addVertex(new Vertex(new Vector( 0,  0, 2))))
+			.addFace(new Face() // x=1
+				.addVertex(new Vertex(new Vector(1, -1, 0)))
+				.addVertex(new Vertex(new Vector(1,  1, 0)))
+				.addVertex(new Vertex(new Vector(0,  0, 2))))
+			.addFace(new Face() // y=-1
+				.addVertex(new Vertex(new Vector(-1, -1, 0)))
+				.addVertex(new Vertex(new Vector( 1, -1, 0)))
+				.addVertex(new Vertex(new Vector( 0,  0, 2))))
+			.addFace(new Face() // y=1
+				.addVertex(new Vertex(new Vector(-1, 1, 0)))
+				.addVertex(new Vertex(new Vector( 1, 1, 0)))
+				.addVertex(new Vertex(new Vector( 0, 0, 2))));
+		Set<Edge<Face>> openEdges = pyramid.getOpenEdges();
+		Assert.assertNotNull("Set should not be null", openEdges);
+		Assert.assertEquals("number of openEdges should be", 4, openEdges.size());
+		for (Edge<Face> edge : openEdges) {
+			Assert.assertEquals("all open edges should be on z=0", 0, edge.getVertices().get(0).getPosition().get(2), 0.000001);
+			Assert.assertEquals("all open edges should be on z=0", 0, edge.getVertices().get(1).getPosition().get(2), 0.000001);
+		}
+		Assert.assertFalse("pyramid should be considered leaky", pyramid.isImpermeable());
 	}
 }

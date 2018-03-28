@@ -18,21 +18,21 @@ public class FaceTest {
 
 	@Test
 	public void testFaceWithNoVertexHasNoEdges() {
-		List<Edge> edges = new Face().getEdges();
+		List<Edge<Face>> edges = new Face().getEdges();
 		Assert.assertNotNull("edges should not be null", edges);
 		Assert.assertTrue("edges should be empty", edges.isEmpty());
 	}
 
 	@Test
 	public void testFaceWithOneVertexHasNoEdges() {
-		List<Edge> edges = new Face().addVertex(new Vertex(new Vector(0, 0, 0))).getEdges();
+		List<Edge<Face>> edges = new Face().addVertex(new Vertex(new Vector(0, 0, 0))).getEdges();
 		Assert.assertNotNull("edges should not be null", edges);
 		Assert.assertTrue("edges should be empty", edges.isEmpty());
 	}
 
 	@Test
 	public void testFaceWithTwoVerticesHasTwoEdges() {
-		List<Edge> edges = new Face()
+		List<Edge<Face>> edges = new Face()
 			.addVertex(new Vertex(new Vector(0, 0, 0)))
 			.addVertex(new Vertex(new Vector(1, 0, 0)))
 			.getEdges();

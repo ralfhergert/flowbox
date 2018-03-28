@@ -7,6 +7,7 @@ import de.ralfhergert.flowbox.xml.v1.XmlParser;
 import de.ralfhergert.flowbox.xml.v1.XmlSimulation;
 import de.ralfhergert.flowbox.xml.v1.converter.XmlSimulationToSimulationConverter;
 import de.ralfhergert.math.geom.Edge;
+import de.ralfhergert.math.geom.Face;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,9 +107,9 @@ public class FlowBox {
 	 */
 	public class SimulationOutlineIsLeaking extends Result {
 
-		private Set<Edge> openEdges;
+		private Set<Edge<Face>> openEdges;
 
-		public SimulationOutlineIsLeaking(String message, Set<Edge> openEdges) {
+		public SimulationOutlineIsLeaking(String message, Set<Edge<Face>> openEdges) {
 			super(true, message);
 			this.openEdges = openEdges;
 		}

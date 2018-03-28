@@ -32,14 +32,14 @@ public class Face {
 		return properties.get(name);
 	}
 
-	public List<Edge> getEdges() {
-		List<Edge> edges = new ArrayList<>();
+	public List<Edge<Face>> getEdges() {
+		List<Edge<Face>> edges = new ArrayList<>();
 		for (int i = 1; i < vertices.size(); i++) {
-			edges.add(new Edge(vertices.get(i - 1), vertices.get(i)));
+			edges.add(new Edge<Face>(vertices.get(i - 1), vertices.get(i)).setParent(this));
 		}
 		// final closing edge
 		if (vertices.size() > 1) {
-			edges.add(new Edge(vertices.get(vertices.size() - 1), vertices.get(0)));
+			edges.add(new Edge<Face>(vertices.get(vertices.size() - 1), vertices.get(0)).setParent(this));
 		}
 		return edges;
 	}
