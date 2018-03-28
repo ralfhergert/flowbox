@@ -54,6 +54,15 @@ public class EdgeTest {
 	}
 
 	@Test
+	public void testEdgesWithDifferentParentsDoNotEqual() {
+		Edge<String> e1 = new Edge<String>(new Vertex(new Vector(1, 2, 3)), new Vertex(new Vector(5, 6, 7))).setParent("foo");
+		Edge e2 = new Edge(new Vertex(new Vector(1, 2, 3)), new Vertex(new Vector(5, 6, 7)));
+		Assert.assertEquals("parent of e1 is", "foo", e1.getParent());
+		Assert.assertEquals("parent of e2 is", null, e2.getParent());
+		Assert.assertNotEquals("both edges should not equal", e1, e2);
+	}
+
+	@Test
 	public void testEdgeHashCodeEqualsDespitePositiveAndNegativeZero() {
 		Edge e1 = new Edge(new Vertex(new Vector(+0.0, 2, 3)), new Vertex(new Vector(5, 6, 7)));
 		Edge e2 = new Edge(new Vertex(new Vector(-0.0, 2, 3)), new Vertex(new Vector(5, 6, 7)));
@@ -63,6 +72,6 @@ public class EdgeTest {
 	@Test
 	public void testEdgeToString() {
 		Edge e = new Edge(new Vertex(new Vector(1, 2, 3)), new Vertex(new Vector(5, 6, 7)));
-		Assert.assertEquals("toString should be", "Edge[Vertex{position=Vector[1.0, 2.0, 3.0]}, Vertex{position=Vector[5.0, 6.0, 7.0]}]", e.toString());
+		Assert.assertEquals("toString should be", "Edge{[Vertex{position=Vector[1.0, 2.0, 3.0]}, Vertex{position=Vector[5.0, 6.0, 7.0]}],parent=null}", e.toString());
 	}
 }

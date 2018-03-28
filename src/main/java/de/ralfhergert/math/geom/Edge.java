@@ -2,14 +2,16 @@ package de.ralfhergert.math.geom;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 /**
  * An edge is leading from one vertex to another.
  * An edge is directional.
  */
-public class Edge {
+public class Edge<Parent> {
 
 	private Vertex[] vertices = new Vertex[2];
+	private Parent parent;
 
 	public Edge(Vertex vertex1, Vertex vertex2) {
 		if (vertex1 == null) {
@@ -26,6 +28,15 @@ public class Edge {
 		return Arrays.asList(vertices);
 	}
 
+	public Parent getParent() {
+		return parent;
+	}
+
+	public Edge<Parent> setParent(Parent parent) {
+		this.parent = parent;
+		return this;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -34,17 +45,20 @@ public class Edge {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Edge edge = (Edge)o;
-		return Arrays.equals(vertices, edge.vertices);
+		Edge<?> edge = (Edge<?>) o;
+		return Arrays.equals(vertices, edge.vertices) &&
+			Objects.equals(parent, edge.parent);
 	}
 
 	@Override
 	public int hashCode() {
-		return Arrays.hashCode(vertices);
+		int result = Objects.hash(parent);
+		result = 31 * result + Arrays.hashCode(vertices);
+		return result;
 	}
 
 	@Override
 	public String toString() {
-		return "Edge" + Arrays.toString(vertices);
+		return "Edge{" + Arrays.toString(vertices) + ",parent=" + parent + "}";
 	}
 }

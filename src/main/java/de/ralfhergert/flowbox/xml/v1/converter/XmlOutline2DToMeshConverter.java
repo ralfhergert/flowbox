@@ -49,9 +49,9 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 			}
 			/* the sections with the edges may be defined in random order.
 			 * A lookupMap help in finding the adjacent edges. */
-			final Map<Vertex,List<Edge>> edgeLookupMap = buildEdgeLookupMap(edges);
+			final Map<Vertex,List<Edge<?>>> edgeLookupMap = buildEdgeLookupMap(edges);
 			// make sure that for each vertex two edge exist.
-			for (Map.Entry<Vertex,List<Edge>> entry : edgeLookupMap.entrySet()) {
+			for (Map.Entry<Vertex,List<Edge<?>>> entry : edgeLookupMap.entrySet()) {
 				final int size = entry.getValue().size();
 				if (size < 2) {
 					//throw new IllegalArgumentException("the mesh definition is not complete");
@@ -76,9 +76,9 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 		return mesh;
 	}
 
-	public Map<Vertex,List<Edge>> buildEdgeLookupMap(Collection<Edge> edges) {
-		Map<Vertex,List<Edge>> lookupMap = new HashMap<>();
-		for (Edge edge : edges) {
+	public Map<Vertex,List<Edge<?>>> buildEdgeLookupMap(Collection<Edge> edges) {
+		Map<Vertex,List<Edge<?>>> lookupMap = new HashMap<>();
+		for (Edge<?> edge : edges) {
 			for (Vertex vertex : edge.getVertices()) {
 				if (lookupMap.containsKey(vertex)) {
 					lookupMap.get(vertex).add(edge);
@@ -90,7 +90,7 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 		return lookupMap;
 	}
 
-	public List<Vertex> getVerticesFromMap(final Map<Vertex,List<Edge>> lookupEdge, final Vertex startingVertex) {
+	public List<Vertex> getVerticesFromMap(final Map<Vertex,List<Edge<?>>> lookupEdge, final Vertex startingVertex) {
 		final List<Vertex> vertices = new ArrayList<>();
 		vertices.add(startingVertex);
 		Edge edge = lookupEdge.get(startingVertex).get(0);
@@ -107,7 +107,7 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 		return vertices;
 	}
 
-	public Vertex getOtherVertex(Edge edge, Vertex vertex) {
+	public Vertex getOtherVertex(Edge<?> edge, Vertex vertex) {
 		for (Vertex v : edge.getVertices()) {
 			if (!v.equals(vertex)) {
 				return v;
@@ -116,7 +116,7 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 		return null;
 	}
 
-	public Edge getOtherEdge(Map<Vertex,List<Edge>> lookupEdge, Vertex vertex, Edge currentEdge) {
+	public Edge getOtherEdge(Map<Vertex,List<Edge<?>>> lookupEdge, Vertex vertex, Edge currentEdge) {
 		for (Edge edge : lookupEdge.get(vertex)) {
 			if (!edge.equals(currentEdge)) {
 				return edge;
