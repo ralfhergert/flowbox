@@ -24,7 +24,7 @@ public class Result {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Result result = (Result) o;
+		Result result = (Result)o;
 		return isError == result.isError && Objects.equals(message, result.message);
 	}
 
