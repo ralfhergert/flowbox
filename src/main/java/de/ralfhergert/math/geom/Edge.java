@@ -7,6 +7,8 @@ import java.util.Objects;
 /**
  * An edge is leading from one vertex to another.
  * An edge is directional.
+ *
+ * @param <Parent> type of the parent of this edge.
  */
 public class Edge<Parent> {
 
