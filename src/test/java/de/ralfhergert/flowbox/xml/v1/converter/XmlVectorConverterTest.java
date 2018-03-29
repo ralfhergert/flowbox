@@ -1,8 +1,6 @@
 package de.ralfhergert.flowbox.xml.v1.converter;
 
 import de.ralfhergert.flowbox.xml.v1.XmlVector;
-import de.ralfhergert.flowbox.xml.v1.XmlVertex;
-import de.ralfhergert.math.geom.Vertex;
 import org.alltiny.math.vector.Vector;
 import org.junit.Assert;
 import org.junit.Test;
