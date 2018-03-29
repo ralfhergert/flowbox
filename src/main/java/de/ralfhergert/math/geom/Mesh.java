@@ -140,7 +140,7 @@ public class Mesh {
 				// get the pairing face out of the consistent faces.
 				Set<Face> pairingFaces = findAdjacentFaces(adjacentFace);
 				pairingFaces.retainAll(consistentFaces);
-				assert !pairingFaces.isEmpty(); // pairing faces can not be empty, else adjacentFace would have never been found.
+				// pairing faces can not be empty, else adjacentFace would have never been found.
 				if (adjacentFace.getNormalConsistentWith(pairingFaces.iterator().next()) == Face.NormalConsistency.Inconsistent) {
 					adjacentFace.flipNormal();
 				}
