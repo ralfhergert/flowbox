@@ -108,6 +108,16 @@ public class FaceTest {
 	}
 
 	@Test
+	public void testCalcAreaOfScareAtY2() {
+		Face face = new Face() // y=2
+			.addVertex(new Vertex(new Vector(2, 2, 2)))
+			.addVertex(new Vertex(new Vector(2, 2, 0)))
+			.addVertex(new Vertex(new Vector(0, 2, 0)))
+			.addVertex(new Vertex(new Vector(0, 2, 2)));
+		Assert.assertEquals("area of face should be", 4, face.calcArea(), 0.000001);
+	}
+
+	@Test
 	public void testFlippingFaceNormal() {
 		// create a face with no area.
 		Face face = new Face()

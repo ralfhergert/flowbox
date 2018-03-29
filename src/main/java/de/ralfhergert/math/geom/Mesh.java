@@ -1,6 +1,15 @@
 package de.ralfhergert.math.geom;
 
-import java.util.*;
+import org.alltiny.math.vector.Vector;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /***
@@ -149,5 +158,51 @@ public class Mesh {
 			makeAdjacentFacesNormalsConsistent(consistentFaces, edgeLookup);
 		}
 		return this;
+	}
+
+	public Mesh flipFaceNormals() {
+		for (Face face : faces) {
+			face.flipNormal();
+		}
+		return this;
+	}
+
+	/**
+	 * This method calculates the volume of this mesh. To get the correct
+	 * volume this method requires the mesh to be {@link #isImpermeable()} to
+	 * be {@code true} and {@link #isConsistent()} to be {@code true}.
+	 *
+	 * @return a negative value if the faceNormals are pointing outwards or
+	 *         a positive value is the faceNormals are pointing inwards; in
+	 *         either case the absolute value is the volume.
+	 * @see #calcVolume()
+	 */
+	public double calcVolumeNative() {
+		if (faces.isEmpty()) {
+			return 0;
+		}
+		double volume = 0;
+		// use a vertex of the first face as origin.
+		Vector origin = faces.get(0).getVertices().get(0).getPosition();
+		// the first face can be skipped, because the origin is part of this face its volume will be 0.
+		for (int i = 1; i < faces.size(); i++) {
+			Face face = faces.get(i);
+			Vector areaVector = face.calcAreaVector();
+			Vector toOrigin = origin.sub(face.getVertices().get(0).getPosition());
+			volume += areaVector.scalar(toOrigin) / 3;
+		}
+		return volume;
+	}
+
+	/**
+	 * This method calculates the volume of this mesh. To get the correct
+	 * volume this method requires the mesh to be {@link #isImpermeable()} to
+	 * be {@code true} and {@link #isConsistent()} to be {@code true}.
+	 *
+	 * @return the volume of this mesh
+	 * @see #calcVolumeNative()
+	 */
+	public double calcVolume() {
+		return Math.abs(calcVolumeNative());
 	}
 }

@@ -199,4 +199,91 @@ public class MeshTest {
 		Mesh mesh = new Mesh().makeAdjacentFacesNormalsConsistent(new ArrayList<>(), null);
 		Assert.assertTrue("empty mesh should be considered consistent", mesh.isConsistent());
 	}
+
+	@Test
+	public void testCalculateVolumeNativeOnEmptyMesh() {
+		Assert.assertEquals("volume of an empty mesh should be", 0, new Mesh().calcVolumeNative(), 0.000001);
+	}
+
+	@Test
+	public void testCalculateVolumeOnEmptyMesh() {
+		Assert.assertEquals("volume of an empty mesh should be", 0, new Mesh().calcVolume(), 0.000001);
+	}
+
+	@Test
+	public void testCalculateVolumeNativeOnPyramid() {
+		// create a pyramid.
+		Mesh mesh = new Mesh()
+			.addFace(new Face() // bottom
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0))))
+			.addFace(new Face() // x=0
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // x=1
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // y=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // y=1
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))));
+		Assert.assertTrue("mesh should be impermeable", mesh.isImpermeable());
+		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+		Assert.assertEquals("native volume should be", -1.0/3, mesh.calcVolumeNative(), 0.000001);
+		Assert.assertEquals("volume should be", 1.0/3, mesh.calcVolume(), 0.000001);
+		mesh.flipFaceNormals();
+		Assert.assertEquals("native volume should be", 1.0/3, mesh.calcVolumeNative(), 0.000001);
+		Assert.assertEquals("volume should be", 1.0/3, mesh.calcVolume(), 0.000001);
+	}
+
+	@Test
+	public void testCalculateVolumeOnCube() {
+		// create a cube with a=2.
+		Mesh mesh = new Mesh()
+			.addFace(new Face() // x=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 2)))
+				.addVertex(new Vertex(new Vector(0, 2, 2)))
+				.addVertex(new Vertex(new Vector(0, 2, 0))))
+			.addFace(new Face() // x=2
+				.addVertex(new Vertex(new Vector(2, 2, 2)))
+				.addVertex(new Vertex(new Vector(2, 0, 2)))
+				.addVertex(new Vertex(new Vector(2, 0, 0)))
+				.addVertex(new Vertex(new Vector(2, 2, 0))))
+			.addFace(new Face() // y=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(2, 0, 0)))
+				.addVertex(new Vertex(new Vector(2, 0, 2)))
+				.addVertex(new Vertex(new Vector(0, 0, 2))))
+			.addFace(new Face() // y=2
+				.addVertex(new Vertex(new Vector(2, 2, 2)))
+				.addVertex(new Vertex(new Vector(2, 2, 0)))
+				.addVertex(new Vertex(new Vector(0, 2, 0)))
+				.addVertex(new Vertex(new Vector(0, 2, 2))))
+			.addFace(new Face() // z=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 2, 0)))
+				.addVertex(new Vertex(new Vector(2, 2, 0)))
+				.addVertex(new Vertex(new Vector(2, 0, 0))))
+			.addFace(new Face() // z=2
+				.addVertex(new Vertex(new Vector(2, 2, 2)))
+				.addVertex(new Vertex(new Vector(0, 2, 2)))
+				.addVertex(new Vertex(new Vector(0, 0, 2)))
+				.addVertex(new Vertex(new Vector(2, 0, 2))));
+		Assert.assertTrue("mesh should be impermeable", mesh.isImpermeable());
+		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+		Assert.assertEquals("native volume should be", -8, mesh.calcVolumeNative(), 0.000001);
+		Assert.assertEquals("volume should be", 8, mesh.calcVolume(), 0.000001);
+		mesh.flipFaceNormals();
+		Assert.assertEquals("native volume should be", 8, mesh.calcVolumeNative(), 0.000001);
+		Assert.assertEquals("volume should be", 8, mesh.calcVolume(), 0.000001);
+	}
 }
