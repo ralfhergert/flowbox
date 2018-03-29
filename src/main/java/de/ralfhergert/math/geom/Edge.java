@@ -47,7 +47,7 @@ public class Edge<Parent> {
 		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
-		Edge<?> edge = (Edge<?>) o;
+		Edge edge = (Edge)o;
 		return Arrays.equals(vertices, edge.vertices) &&
 			Objects.equals(parent, edge.parent);
 	}
