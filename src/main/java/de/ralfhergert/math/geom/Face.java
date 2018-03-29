@@ -1,7 +1,12 @@
 package de.ralfhergert.math.geom;
 
 import org.alltiny.math.vector.Vector;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * A face defined by multiple vertices.

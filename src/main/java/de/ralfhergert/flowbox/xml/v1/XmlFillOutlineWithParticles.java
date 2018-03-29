@@ -3,7 +3,10 @@ package de.ralfhergert.flowbox.xml.v1;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Description element.

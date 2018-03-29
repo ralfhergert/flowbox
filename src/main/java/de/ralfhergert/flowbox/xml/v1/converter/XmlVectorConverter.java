@@ -1,6 +1,6 @@
 package de.ralfhergert.flowbox.xml.v1.converter;
 
-import de.ralfhergert.flowbox.xml.v1.*;
+import de.ralfhergert.flowbox.xml.v1.XmlVector;
 import de.ralfhergert.generic.converter.Converter;
 import org.alltiny.math.vector.Vector;
 
