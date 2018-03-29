@@ -91,12 +91,12 @@ public class FaceTest {
 			.addVertex(new Vertex(new Vector(0, 0, 0)))
 			.addVertex(new Vertex(new Vector(1, 0, 0)))
 			.addVertex(new Vertex(new Vector(1, 1, 0)));
-		Assert.assertEquals("number of edges should be", 0.5, face.calcArea(), 0.000001);
+		Assert.assertEquals("area of face should be", 0.5, face.calcArea(), 0.000001);
 	}
 
 	@Test
 	public void testAreaOfConvexFace() {
-		// create a face with no area.
+		// create a convex face at z=0.
 		Face face = new Face()
 			.addVertex(new Vertex(new Vector(0, 0, 0)))
 			.addVertex(new Vertex(new Vector(1, 0, 0)))
@@ -104,7 +104,7 @@ public class FaceTest {
 			.addVertex(new Vertex(new Vector(-1, 1, 0)))
 			.addVertex(new Vertex(new Vector(-1, -1, 0)))
 			.addVertex(new Vertex(new Vector(0, -1, 0)));
-		Assert.assertEquals("number of edges should be", 3, face.calcArea(), 0.000001);
+		Assert.assertEquals("area of face should be", 3, face.calcArea(), 0.000001);
 	}
 
 	@Test
