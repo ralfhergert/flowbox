@@ -5,5 +5,5 @@ package de.ralfhergert.flowbox.model;
  */
 public interface Initializer {
 
-	void applyTo(Simulation simulation);
+	Result applyTo(Simulation simulation);
 }

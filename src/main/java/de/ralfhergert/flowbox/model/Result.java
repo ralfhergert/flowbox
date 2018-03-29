@@ -16,6 +16,14 @@ public class Result {
 		this.message = message;
 	}
 
+	public boolean isError() {
+		return isError;
+	}
+
+	public boolean isSuccess() {
+		return !isError;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {

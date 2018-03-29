@@ -1,6 +1,7 @@
 package de.ralfhergert.flowbox.model.initializer;
 
 import de.ralfhergert.flowbox.model.Initializer;
+import de.ralfhergert.flowbox.model.Result;
 import de.ralfhergert.flowbox.model.Simulation;
 import de.ralfhergert.math.geom.Vertex;
 import org.alltiny.math.vector.Vector;
@@ -20,6 +21,15 @@ public class FillOutlineWithParticles implements Initializer {
 	private Vector velocity;
 
 	public FillOutlineWithParticles(int numberOfParticles, double density, double temperature) {
+		if (numberOfParticles <= 0) {
+			throw new IllegalArgumentException("number of particles must be greater than 0");
+		}
+		if (density < 0) {
+			throw new IllegalArgumentException("density must be greater or equal 0");
+		}
+		if (temperature < 0) {
+			throw new IllegalArgumentException("temperature must be greater or equal 0");
+		}
 		this.numberOfParticles = numberOfParticles;
 		this.density = density;
 		this.temperature = temperature;
@@ -54,7 +64,44 @@ public class FillOutlineWithParticles implements Initializer {
 	}
 
 	@Override
-	public void applyTo(Simulation simulation) {
+	public Result applyTo(Simulation simulation) {
+		if (simulation == null) {
+			return new NoSimulationGiven();
+		}
+		if (simulation.getOutline() == null) {
+			return new NoSimulationOutlineGiven();
+		}
+		if (!simulation.getOutline().isImpermeable()) {
+			return new SimulationOutlinePermeable();
+		}
+		return new Result(false, "Done");
+	}
 
+	/**
+	 * This error result is given when simulation was null.
+	 */
+	class NoSimulationGiven extends Result {
+		public NoSimulationGiven() {
+			super(true, "No simulation has been given");
+		}
+	}
+
+	/**
+	 * This error result is given when the simulation has no outline.
+	 */
+	class NoSimulationOutlineGiven extends Result {
+		public NoSimulationOutlineGiven() {
+			super(true, "Simulation has no outline");
+		}
+	}
+
+	/**
+	 * This error result is given when the simulation outline is incomplete
+	 * and therefor not impermeable.
+	 */
+	class SimulationOutlinePermeable extends Result {
+		public SimulationOutlinePermeable() {
+			super(true, "Simulation outline is incomplete (not a closed mesh)");
+		}
 	}
 }
