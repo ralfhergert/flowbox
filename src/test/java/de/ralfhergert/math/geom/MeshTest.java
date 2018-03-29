@@ -237,11 +237,11 @@ public class MeshTest {
 				.addVertex(new Vertex(new Vector(0, 0, 1))));
 		Assert.assertTrue("mesh should be impermeable", mesh.isImpermeable());
 		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
-		Assert.assertEquals("native volume should be", -1.0/3, mesh.calcVolumeNative(), 0.000001);
-		Assert.assertEquals("volume should be", 1.0/3, mesh.calcVolume(), 0.000001);
+		Assert.assertEquals("native volume should be", -1.0 / 3, mesh.calcVolumeNative(), 0.000001);
+		Assert.assertEquals("volume should be", 1.0 / 3, mesh.calcVolume(), 0.000001);
 		mesh.flipFaceNormals();
-		Assert.assertEquals("native volume should be", 1.0/3, mesh.calcVolumeNative(), 0.000001);
-		Assert.assertEquals("volume should be", 1.0/3, mesh.calcVolume(), 0.000001);
+		Assert.assertEquals("native volume should be", 1.0 / 3, mesh.calcVolumeNative(), 0.000001);
+		Assert.assertEquals("volume should be", 1.0 / 3, mesh.calcVolume(), 0.000001);
 	}
 
 	@Test
