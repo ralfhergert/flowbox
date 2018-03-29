@@ -1,6 +1,6 @@
 package de.ralfhergert.flowbox.xml.v1.converter;
 
-import de.ralfhergert.flowbox.model.initialization.FillOutlineWithParticles;
+import de.ralfhergert.flowbox.model.initializer.FillOutlineWithParticles;
 import de.ralfhergert.flowbox.xml.v1.XmlFillOutlineWithParticles;
 import de.ralfhergert.flowbox.xml.v1.XmlVector;
 import de.ralfhergert.flowbox.xml.v1.XmlVertex;

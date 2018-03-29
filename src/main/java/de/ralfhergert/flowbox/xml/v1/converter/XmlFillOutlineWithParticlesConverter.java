@@ -1,7 +1,7 @@
 package de.ralfhergert.flowbox.xml.v1.converter;
 
 import de.ralfhergert.flowbox.model.Simulation;
-import de.ralfhergert.flowbox.model.initialization.FillOutlineWithParticles;
+import de.ralfhergert.flowbox.model.initializer.FillOutlineWithParticles;
 import de.ralfhergert.flowbox.xml.v1.XmlFillOutlineWithParticles;
 import de.ralfhergert.flowbox.xml.v1.XmlSimulation;
 import de.ralfhergert.generic.converter.Converter;

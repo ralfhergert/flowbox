@@ -1,4 +1,4 @@
-package de.ralfhergert.flowbox.model.initialization;
+package de.ralfhergert.flowbox.model.initializer;
 
 import de.ralfhergert.flowbox.model.Initializer;
 import de.ralfhergert.flowbox.model.Simulation;
