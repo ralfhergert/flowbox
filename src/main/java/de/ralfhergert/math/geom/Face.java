@@ -93,6 +93,10 @@ public class Face {
 		return lookupMap;
 	}
 
+	/**
+	 * Defines the different outcomes of a face-consistency-check.
+	 * @see #getNormalConsistentWith(Face)
+	 */
 	public enum NormalConsistency {
 		Consistent,
 		Inconsistent,
