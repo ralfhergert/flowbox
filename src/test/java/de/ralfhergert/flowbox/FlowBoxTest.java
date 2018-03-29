@@ -2,7 +2,6 @@ package de.ralfhergert.flowbox;
 
 import de.ralfhergert.flowbox.model.Result;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
