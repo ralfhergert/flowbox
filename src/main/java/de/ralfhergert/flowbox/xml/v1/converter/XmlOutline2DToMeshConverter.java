@@ -65,7 +65,7 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 			if (!edgeLookupMap.isEmpty()) {
 				final Face zNeg = new Face().setProperty("name", "zNeg");
 				final Face zPos = new Face().setProperty("name", "zPos");
-				for (Vertex vertex : getVerticesFromMap(edgeLookupMap, edgeLookupMap.keySet().stream().findFirst().get())) {
+				for (Vertex vertex : getVerticesFromMap(edgeLookupMap, edgeLookupMap.keySet().iterator().next())) {
 					zNeg.addVertex(new Vertex(new Vector(vertex.getPosition()).set(2, -0.5)));
 					zPos.addVertex(new Vertex(new Vector(vertex.getPosition()).set(2, +0.5)));
 				}
