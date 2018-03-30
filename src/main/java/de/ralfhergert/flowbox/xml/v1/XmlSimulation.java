@@ -29,7 +29,8 @@ public class XmlSimulation {
 
 	@XmlElementWrapper(name = "initialization")
 	@XmlElements({
-		@XmlElement(name = "fillOutlineWithParticles", type = XmlFillOutlineWithParticles.class)
+		@XmlElement(name = "fillOutlineWithParticles", type = XmlFillOutlineWithParticles.class),
+		@XmlElement(name = "addParticle", type = XmlAddParticle.class)
 	})
 	private List<XmlInitialization> initializations;
 

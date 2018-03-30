@@ -16,4 +16,13 @@
 			<edge><vertex x="0" y="0"/><vertex x="1" y="0"/></edge>
 		</section>
 	</outline>
+	<!-- initialization: add particles at random positions inside the outline -->
+	<initialization>
+		<fillOutlineWithParticles
+			numberOfParticles="100"
+			density="1.2041"
+			temperature="293">
+			<velocity x="0" y="0" z="0"/>
+		</fillOutlineWithParticles>
+	</initialization>
 </simulation>

@@ -26,9 +26,6 @@ public class XmlFillOutlineWithParticles extends XmlInitialization {
 	@XmlAttribute(required = true)
 	private double temperature;
 
-	@XmlElement(name = "position")
-	private XmlVertex position;
-
 	@XmlElement(name = "velocity")
 	private XmlVector velocity;
 
@@ -56,15 +53,6 @@ public class XmlFillOutlineWithParticles extends XmlInitialization {
 
 	public XmlFillOutlineWithParticles setTemperature(double temperature) {
 		this.temperature = temperature;
-		return this;
-	}
-
-	public XmlVertex getPosition() {
-		return position;
-	}
-
-	public XmlFillOutlineWithParticles setPosition(XmlVertex position) {
-		this.position = position;
 		return this;
 	}
 

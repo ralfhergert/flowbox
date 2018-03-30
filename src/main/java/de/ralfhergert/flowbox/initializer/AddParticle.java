@@ -2,46 +2,46 @@ package de.ralfhergert.flowbox.initializer;
 
 import de.ralfhergert.flowbox.model.Result;
 import de.ralfhergert.flowbox.model.Simulation;
+import de.ralfhergert.math.geom.Vertex;
 import org.alltiny.math.vector.Vector;
 
 /**
  * This initializer fill the outline of the simulation with particles.
  */
-public class FillOutlineWithParticles implements Initializer {
+public class AddParticle implements Initializer {
 
-	private final int numberOfParticles;
-
-	private final double density;
+	private final double mass;
 
 	private final double temperature;
 
+	private Vertex position;
 	private Vector velocity;
 
-	public FillOutlineWithParticles(int numberOfParticles, double density, double temperature) {
-		if (numberOfParticles <= 0) {
-			throw new IllegalArgumentException("number of particles must be greater than 0");
-		}
-		if (density < 0) {
-			throw new IllegalArgumentException("density must be greater than or equal 0");
+	public AddParticle(double mass, double temperature) {
+		if (mass <= 0) {
+			throw new IllegalArgumentException("mass must be greater than 0");
 		}
 		if (temperature < 0) {
 			throw new IllegalArgumentException("temperature must be greater than or equal 0");
 		}
-		this.numberOfParticles = numberOfParticles;
-		this.density = density;
+		this.mass = mass;
 		this.temperature = temperature;
 	}
 
-	public int getNumberOfParticles() {
-		return numberOfParticles;
-	}
-
-	public double getDensity() {
-		return density;
+	public double getMass() {
+		return mass;
 	}
 
 	public double getTemperature() {
 		return temperature;
+	}
+
+	public Vertex getPosition() {
+		return position;
+	}
+
+	public void setPosition(Vertex position) {
+		this.position = position;
 	}
 
 	public Vector getVelocity() {

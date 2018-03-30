@@ -19,7 +19,6 @@ public class XmlFillOutlineWithParticlesConverter implements Converter<XmlFillOu
 			xmlFillOutlineWithParticles.getDensity(),
 			xmlFillOutlineWithParticles.getTemperature()
 		);
-		fillOutlineWithParticles.setPosition(new XmlVertexConverter().convert(xmlFillOutlineWithParticles.getPosition()));
 		fillOutlineWithParticles.setVelocity(new XmlVectorConverter().convert(xmlFillOutlineWithParticles.getVelocity()));
 		return fillOutlineWithParticles;
 	}
