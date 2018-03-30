@@ -1,6 +1,5 @@
-package de.ralfhergert.flowbox.model.initializer;
+package de.ralfhergert.flowbox.initializer;
 
-import de.ralfhergert.flowbox.model.Initializer;
 import de.ralfhergert.flowbox.model.Result;
 import de.ralfhergert.flowbox.model.Simulation;
 import de.ralfhergert.math.geom.Vertex;
