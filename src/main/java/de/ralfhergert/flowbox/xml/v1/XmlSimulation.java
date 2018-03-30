@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.util.List;
 
 /**
- * Root element for simulation-xmls.
+ * Root element for simulation-XMLs.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "simulation")
