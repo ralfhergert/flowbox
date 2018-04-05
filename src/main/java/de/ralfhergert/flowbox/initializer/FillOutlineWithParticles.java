@@ -15,7 +15,7 @@ public class FillOutlineWithParticles implements Initializer {
 
 	private final double temperature;
 
-	private Vector velocity;
+	private Vector velocity = new Vector(3);
 
 	public FillOutlineWithParticles(int numberOfParticles, double density, double temperature) {
 		if (numberOfParticles <= 0) {
