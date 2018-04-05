@@ -206,6 +206,10 @@ public class Vector {
 		return normal.scale(normal.scalar(this));
 	}
 
+	public double angleBetween(Vector other) {
+		return Math.acos(scalar(other) / getLength() / other.getLength());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
