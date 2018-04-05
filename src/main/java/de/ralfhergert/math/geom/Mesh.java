@@ -205,4 +205,38 @@ public class Mesh {
 	public double calcVolume() {
 		return Math.abs(calcVolumeNative());
 	}
+
+	public VertexLocation calcVertexLocation(Vertex vertex) {
+		final SphericalMesh sphericalMesh = new SphericalMesh();
+		for (Face face : faces) {
+			final List<Vertex> sphericalVertices = new ArrayList<>();
+			// convert each face vertex
+			for (Vertex faceVertex : face.getVertices()) {
+				Vector vector = faceVertex.getPosition().sub(vertex.getPosition());
+				final double length = vector.getLength();
+				if (length < 0.000001) { // vertex hit one of the face vertices.
+					return VertexLocation.OnBounds;
+				}
+				sphericalVertices.add(new Vertex(vector.scale(1.0 / length)));
+			}
+			// build triangles.
+			for (int i = 2; i < sphericalVertices.size(); i++) {
+				sphericalMesh.addTriangle((SphericalFace)new SphericalFace()
+					.addVertex(sphericalVertices.get(0))
+					.addVertex(sphericalVertices.get(i-1))
+					.addVertex(sphericalVertices.get(i))
+				);
+			}
+		}
+		/* An area of 2*PI equals half a sphere which means "on bounds", while
+		 * an area near 0 means "out of bounds" and an area of 4*PI is "in bounds". */
+		final double area = Math.abs(sphericalMesh.calcArea());
+		if (area < 0.000001) {
+			return VertexLocation.OutBounds;
+		} else if (area < 3 * Math.PI) {
+			return VertexLocation.OnBounds;
+		} else {
+			return VertexLocation.InBounds;
+		}
+	}
 }

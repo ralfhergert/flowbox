@@ -19,8 +19,8 @@ public class SphericalFace extends Face {
 			final Vector currentPos = vertices.get(i).getPosition();
 			final Vector prevPos = (i > 0 ? vertices.get(i - 1) : vertices.get(vertices.size() - 1)).getPosition();
 			final Vector nextPos = (i < vertices.size() - 1 ? vertices.get(i + 1) : vertices.get(0)).getPosition();
-			final Vector a = prevPos.sub(currentPos.projectOn(prevPos));
-			final Vector b = nextPos.sub(currentPos.projectOn(nextPos));
+			final Vector a = prevPos.sub(currentPos.project(prevPos));
+			final Vector b = nextPos.sub(currentPos.project(nextPos));
 			sumOfRadianAngles += a.angleBetween(b);
 		}
 		return radius * radius * (sumOfRadianAngles - Math.PI * (vertices.size() - 2));

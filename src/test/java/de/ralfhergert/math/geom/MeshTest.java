@@ -2,6 +2,7 @@ package de.ralfhergert.math.geom;
 
 import org.alltiny.math.vector.Vector;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -285,5 +286,158 @@ public class MeshTest {
 		mesh.flipFaceNormals();
 		Assert.assertEquals("native volume should be", 8, mesh.calcVolumeNative(), 0.000001);
 		Assert.assertEquals("volume should be", 8, mesh.calcVolume(), 0.000001);
+	}
+
+	@Test
+	public void testVertexLocationOnBoundsOnPyramid() {
+		// create a pyramid.
+		Mesh mesh = new Mesh()
+			.addFace(new Face() // bottom
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0))))
+			.addFace(new Face() // x=0
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // x=1
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // y=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))))
+			.addFace(new Face() // y=1
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 1))));
+		Assert.assertTrue("mesh should be impermeable", mesh.isImpermeable());
+		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+		Assert.assertEquals("Vertex(0,0,0) should be on bounds", VertexLocation.OnBounds, mesh.calcVertexLocation(new Vertex(new Vector(0, 0, 0))));
+	}
+
+	/**
+	 * This utility method creates a pyramid.
+	 */
+	@Ignore
+	protected Mesh createPyramid() {
+		return new Mesh()
+			.addFace(new Face() // bottom
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0))))
+			.addFace(new Face() // x=0
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(0.5, 0.5, 1))))
+			.addFace(new Face() // x=1
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(0.5, 0.5, 1))))
+			.addFace(new Face() // y=0
+				.addVertex(new Vertex(new Vector(0, 0, 0)))
+				.addVertex(new Vertex(new Vector(1, 0, 0)))
+				.addVertex(new Vertex(new Vector(0.5, 0.5, 1))))
+			.addFace(new Face() // y=1
+				.addVertex(new Vertex(new Vector(1, 1, 0)))
+				.addVertex(new Vertex(new Vector(0, 1, 0)))
+				.addVertex(new Vertex(new Vector(0.5, 0.5, 1))));
+	}
+
+	@Test
+	public void testEnsurePyramidIsImpermeable() {
+		Assert.assertTrue("pyramid should be impermeable", createPyramid().isImpermeable());
+	}
+
+	@Test
+	public void testEnsurePyramidIsConsistent() {
+		Assert.assertTrue("pyramid should be consistent", createPyramid().isConsistent());
+	}
+
+	@Test
+	public void testVertexLocationOnBoundsOnPyramidOnVertex() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, 1));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OnBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOutOfBoundsOnPyramidCloseToVertex() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, 1.001));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OutBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationInBoundsOnPyramidCloseToVertex() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, 0.999));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.InBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOnBoundsOnPyramidOnEdge() {
+		final Vertex vertex = new Vertex(new Vector(1, 0.5, 0));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OnBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOutOfBoundsOnPyramidCloseToEdge() {
+		final Vertex vertex = new Vertex(new Vector(1.001, 0.5, 0));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OutBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationInBoundsOnPyramidCloseToEdge() {
+		final Vertex vertex = new Vertex(new Vector(0.999, 0.5, 0.001));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.InBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationInBoundsOnPyramidCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, 0.5));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.InBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationInBoundsOnPyramidBottomCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, 0.001));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.InBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOnBoundsOnPyramidBottomCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, 0));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OnBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOutOfBoundsOnPyramidBottomCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.5, 0.5, -0.001));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OutBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOnBoundsClosePyramidSideCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.75, 0.5, 0.5));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OnBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationInBoundsClosePyramidSideCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.75, 0.5, 0.499));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.InBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOutOfBoundsClosePyramidSideCenter() {
+		final Vertex vertex = new Vertex(new Vector(0.75, 0.5, 0.501));
+		Assert.assertEquals(vertex + " should be in bounds", VertexLocation.OutBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testVertexLocationOutOfBoundsOnPyramid() {
+		final Vertex vertex = new Vertex(new Vector(2, 0.5, 0));
+		Assert.assertEquals(vertex + " should be out of bounds", VertexLocation.OutBounds, createPyramid().calcVertexLocation(vertex));
 	}
 }
