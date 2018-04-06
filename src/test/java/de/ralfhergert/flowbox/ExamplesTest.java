@@ -1,6 +1,5 @@
 package de.ralfhergert.flowbox;
 
-import de.ralfhergert.flowbox.FlowBox;
 import de.ralfhergert.flowbox.model.Result;
 import org.junit.Assert;
 import org.junit.Test;
