@@ -1,13 +1,25 @@
 package de.ralfhergert.flowbox.initializer;
 
+import de.ralfhergert.flowbox.model.Frame;
+import de.ralfhergert.flowbox.model.Particle;
 import de.ralfhergert.flowbox.model.Result;
 import de.ralfhergert.flowbox.model.Simulation;
+import de.ralfhergert.math.geom.Bounds;
+import de.ralfhergert.math.geom.Mesh;
+import de.ralfhergert.math.geom.Vertex;
+import de.ralfhergert.math.geom.VertexLocation;
 import org.alltiny.math.vector.Vector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * This initializer fill the outline of the simulation with particles.
  */
 public class FillOutlineWithParticles implements Initializer {
+
+	private static final Logger LOG = LoggerFactory.getLogger(FillOutlineWithParticles.class);
 
 	private final int numberOfParticles;
 
@@ -57,13 +69,48 @@ public class FillOutlineWithParticles implements Initializer {
 		if (simulation == null) {
 			return new NoSimulationGiven();
 		}
-		if (simulation.getOutline() == null) {
+		final Mesh outline = simulation.getOutline();
+		if (outline == null) {
 			return new NoSimulationOutlineGiven();
 		}
-		if (!simulation.getOutline().isImpermeable()) {
+		if (!outline.isImpermeable()) {
 			return new SimulationOutlinePermeable();
 		}
+		final double massPerParticle = density * outline.calcVolume() / numberOfParticles;
+		final Bounds bounds = outline.getBounds();
+		final Frame frame;
+		List<Frame> frames = simulation.getFrames();
+		if (frames.isEmpty()) {
+			LOG.info("simulation has not yet a frame: creating frame(0)");
+			frame = new Frame(0);
+			simulation.appendFrame(frame);
+		} else {
+			frame = frames.get(frames.size() - 1);
+		}
+		while (frame.getParticles().size() < numberOfParticles) {
+			Vertex vertex = new Vertex(createRandomVectorInBounds(bounds));
+			if (outline.calcVertexLocation(vertex) != VertexLocation.InBounds) {
+				continue;
+			}
+			frame.addParticle(new Particle(massPerParticle, temperature)
+				.setPosition(vertex));
+		}
 		return new Result(false, "Done");
+	}
+
+	/**
+	 * This method creates a vector within the given bounds.
+	 */
+	public static Vector createRandomVectorInBounds(Bounds bounds) {
+		if (bounds == null) {
+			return null;
+		}
+		double values[] = new double[bounds.getDimension()];
+		for (int i = 0; i < values.length; i++) {
+			final double min = bounds.getMin().get(i);
+			values[i] = min + Math.random() * (bounds.getMax().get(i) - min);
+		}
+		return new Vector(values);
 	}
 
 	/**

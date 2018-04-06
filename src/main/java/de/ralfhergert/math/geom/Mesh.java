@@ -239,4 +239,15 @@ public class Mesh {
 			return VertexLocation.InBounds;
 		}
 	}
+
+	public Bounds getBounds() {
+		if (faces.isEmpty()) {
+			return null;
+		}
+		Bounds bounds = faces.get(0).getBounds();
+		for (int i = 1; i < faces.size(); i++) {
+			bounds.union(faces.get(i).getBounds());
+		}
+		return bounds;
+	}
 }

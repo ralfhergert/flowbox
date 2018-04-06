@@ -174,4 +174,30 @@ public class FaceTest {
 			.addVertex(new Vertex(new Vector(-1,  0, 0)));
 		Assert.assertEquals("both faces should be not connected", Face.NormalConsistency.NotConnected, face1.getNormalConsistentWith(face2));
 	}
+
+	@Test
+	public void testGetBounds() {
+		Bounds bounds = new Face()
+			.addVertex(new Vertex(new Vector(1, 0, 0)))
+			.addVertex(new Vertex(new Vector(-1, 1, 1)))
+			.addVertex(new Vertex(new Vector(0, -2, -1)))
+			.getBounds();
+		Assert.assertNotNull("bounds should not be null", bounds);
+		Assert.assertNotNull("bounds min should not be null", bounds.getMin());
+		Assert.assertNotNull("bounds max should not be null", bounds.getMax());
+		Assert.assertEquals("dimensions of bounds min", 3, bounds.getMin().getDimension());
+		Assert.assertEquals("dimensions of bounds max", 3, bounds.getMax().getDimension());
+		Assert.assertEquals("minX value should be", -1, bounds.getMin().get(0), 0.000001);
+		Assert.assertEquals("minY value should be", -2, bounds.getMin().get(1), 0.000001);
+		Assert.assertEquals("minZ value should be", -1, bounds.getMin().get(2), 0.000001);
+		Assert.assertEquals("maxX value should be", 1, bounds.getMax().get(0), 0.000001);
+		Assert.assertEquals("maxY value should be", 1, bounds.getMax().get(1), 0.000001);
+		Assert.assertEquals("maxZ value should be", 1, bounds.getMax().get(2), 0.000001);
+	}
+
+	@Test
+	public void testEmptyFaceHasNoBounds() {
+		Bounds bounds = new Face().getBounds();
+		Assert.assertNull("bounds should be null", bounds);
+	}
 }

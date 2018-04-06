@@ -245,42 +245,52 @@ public class MeshTest {
 		Assert.assertEquals("volume should be", 1.0 / 3, mesh.calcVolume(), 0.000001);
 	}
 
-	@Test
-	public void testCalculateVolumeOnCube() {
+	/**
+	 *  Creates a cube with a side length of a.
+	 */
+	@Ignore
+	public static Mesh createCube(double a) {
 		// create a cube with a=2.
 		Mesh mesh = new Mesh()
 			.addFace(new Face() // x=0
 				.addVertex(new Vertex(new Vector(0, 0, 0)))
-				.addVertex(new Vertex(new Vector(0, 0, 2)))
-				.addVertex(new Vertex(new Vector(0, 2, 2)))
-				.addVertex(new Vertex(new Vector(0, 2, 0))))
-			.addFace(new Face() // x=2
-				.addVertex(new Vertex(new Vector(2, 2, 2)))
-				.addVertex(new Vertex(new Vector(2, 0, 2)))
-				.addVertex(new Vertex(new Vector(2, 0, 0)))
-				.addVertex(new Vertex(new Vector(2, 2, 0))))
+				.addVertex(new Vertex(new Vector(0, 0, a)))
+				.addVertex(new Vertex(new Vector(0, a, a)))
+				.addVertex(new Vertex(new Vector(0, a, 0))))
+			.addFace(new Face() // x=a
+				.addVertex(new Vertex(new Vector(a, a, a)))
+				.addVertex(new Vertex(new Vector(a, 0, a)))
+				.addVertex(new Vertex(new Vector(a, 0, 0)))
+				.addVertex(new Vertex(new Vector(a, a, 0))))
 			.addFace(new Face() // y=0
 				.addVertex(new Vertex(new Vector(0, 0, 0)))
-				.addVertex(new Vertex(new Vector(2, 0, 0)))
-				.addVertex(new Vertex(new Vector(2, 0, 2)))
-				.addVertex(new Vertex(new Vector(0, 0, 2))))
-			.addFace(new Face() // y=2
-				.addVertex(new Vertex(new Vector(2, 2, 2)))
-				.addVertex(new Vertex(new Vector(2, 2, 0)))
-				.addVertex(new Vertex(new Vector(0, 2, 0)))
-				.addVertex(new Vertex(new Vector(0, 2, 2))))
+				.addVertex(new Vertex(new Vector(a, 0, 0)))
+				.addVertex(new Vertex(new Vector(a, 0, a)))
+				.addVertex(new Vertex(new Vector(0, 0, a))))
+			.addFace(new Face() // y=a
+				.addVertex(new Vertex(new Vector(a, a, a)))
+				.addVertex(new Vertex(new Vector(a, a, 0)))
+				.addVertex(new Vertex(new Vector(0, a, 0)))
+				.addVertex(new Vertex(new Vector(0, a, a))))
 			.addFace(new Face() // z=0
 				.addVertex(new Vertex(new Vector(0, 0, 0)))
-				.addVertex(new Vertex(new Vector(0, 2, 0)))
-				.addVertex(new Vertex(new Vector(2, 2, 0)))
-				.addVertex(new Vertex(new Vector(2, 0, 0))))
-			.addFace(new Face() // z=2
-				.addVertex(new Vertex(new Vector(2, 2, 2)))
-				.addVertex(new Vertex(new Vector(0, 2, 2)))
-				.addVertex(new Vertex(new Vector(0, 0, 2)))
-				.addVertex(new Vertex(new Vector(2, 0, 2))));
+				.addVertex(new Vertex(new Vector(0, a, 0)))
+				.addVertex(new Vertex(new Vector(a, a, 0)))
+				.addVertex(new Vertex(new Vector(a, 0, 0))))
+			.addFace(new Face() // z=a
+				.addVertex(new Vertex(new Vector(a, a, a)))
+				.addVertex(new Vertex(new Vector(0, a, a)))
+				.addVertex(new Vertex(new Vector(0, 0, a)))
+				.addVertex(new Vertex(new Vector(a, 0, a))));
 		Assert.assertTrue("mesh should be impermeable", mesh.isImpermeable());
 		Assert.assertTrue("mesh should be consistent", mesh.isConsistent());
+		return mesh;
+	}
+
+	@Test
+	public void testCalculateVolumeOnCube() {
+		// create a cube with a=2.
+		Mesh mesh = createCube(2);
 		Assert.assertEquals("native volume should be", -8, mesh.calcVolumeNative(), 0.000001);
 		Assert.assertEquals("volume should be", 8, mesh.calcVolume(), 0.000001);
 		mesh.flipFaceNormals();
@@ -439,5 +449,27 @@ public class MeshTest {
 	public void testVertexLocationOutOfBoundsOnPyramid() {
 		final Vertex vertex = new Vertex(new Vector(2, 0.5, 0));
 		Assert.assertEquals(vertex + " should be out of bounds", VertexLocation.OutBounds, createPyramid().calcVertexLocation(vertex));
+	}
+
+	@Test
+	public void testEmptyMeshNotHasBounds() {
+		Bounds bounds = new Mesh().getBounds();
+		Assert.assertNull("bounds should be null", bounds);
+	}
+
+	@Test
+	public void testGetBounds() {
+		Bounds bounds = createPyramid().getBounds();
+		Assert.assertNotNull("bounds should not be null", bounds);
+		Assert.assertNotNull("bounds min should not be null", bounds.getMin());
+		Assert.assertNotNull("bounds max should not be null", bounds.getMax());
+		Assert.assertEquals("dimensions of bounds min", 3, bounds.getMin().getDimension());
+		Assert.assertEquals("dimensions of bounds max", 3, bounds.getMax().getDimension());
+		Assert.assertEquals("minX value should be", 0, bounds.getMin().get(0), 0.000001);
+		Assert.assertEquals("minY value should be", 0, bounds.getMin().get(1), 0.000001);
+		Assert.assertEquals("minZ value should be", 0, bounds.getMin().get(2), 0.000001);
+		Assert.assertEquals("maxX value should be", 1, bounds.getMax().get(0), 0.000001);
+		Assert.assertEquals("maxY value should be", 1, bounds.getMax().get(1), 0.000001);
+		Assert.assertEquals("maxZ value should be", 1, bounds.getMax().get(2), 0.000001);
 	}
 }

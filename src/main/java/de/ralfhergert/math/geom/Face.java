@@ -133,4 +133,29 @@ public class Face {
 		Collections.reverse(vertices);
 		return this;
 	}
+
+	public Bounds getBounds() {
+		if (vertices.isEmpty()) {
+			return null;
+		}
+		Vector v1 = vertices.get(0).getPosition();
+		double minX = v1.get(0);
+		double maxX = minX;
+		double minY = v1.get(1);
+		double maxY = minY;
+		double minZ = v1.get(2);
+		double maxZ = minZ;
+		for (int i = 1; i < vertices.size(); i++) {
+			final Vector v = vertices.get(i).getPosition();
+			minX = Math.min(minX, v.get(0));
+			maxX = Math.max(maxX, v.get(0));
+			minY = Math.min(minY, v.get(1));
+			maxY = Math.max(maxY, v.get(1));
+			minZ = Math.min(minZ, v.get(2));
+			maxZ = Math.max(maxZ, v.get(2));
+		}
+		return new Bounds()
+			.setMin(new Vector(minX, minY, minZ))
+			.setMax(new Vector(maxX, maxY, maxZ));
+	}
 }
