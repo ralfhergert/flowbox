@@ -57,4 +57,8 @@ public class XmlSimulation {
 		this.outline = outline;
 		return this;
 	}
+
+	public List<XmlInitialization> getInitializations() {
+		return initializations;
+	}
 }

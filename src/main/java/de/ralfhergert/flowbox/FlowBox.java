@@ -1,5 +1,6 @@
 package de.ralfhergert.flowbox;
 
+import de.ralfhergert.flowbox.initializer.Initializer;
 import de.ralfhergert.flowbox.model.ExceptionalResult;
 import de.ralfhergert.flowbox.model.Result;
 import de.ralfhergert.flowbox.model.Simulation;
@@ -56,6 +57,11 @@ public class FlowBox {
 			return new SimulationOutlineIsLeaking("simulation outline is not a closed mesh", simulation.getOutline().getOpenEdges());
 		}
 		LOG.trace("trying to initialize");
+		if (simulation.getInitializations() != null) {
+			for (Initializer initializer : simulation.getInitializations()) {
+				initializer.applyTo(simulation);
+			}
+		}
 		return new Result(false, "Done");
 	}
 

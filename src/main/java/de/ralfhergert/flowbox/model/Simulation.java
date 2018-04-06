@@ -1,5 +1,6 @@
 package de.ralfhergert.flowbox.model;
 
+import de.ralfhergert.flowbox.initializer.Initializer;
 import de.ralfhergert.math.geom.Mesh;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Simulation {
 	private Mesh outline;
 
 	private final List<Frame> frames = new ArrayList<>();
+	private final List<Initializer> initializations = new ArrayList<>();
 
 	public Mesh getOutline() {
 		return outline;
@@ -30,6 +32,15 @@ public class Simulation {
 
 	public Simulation appendFrame(Frame frame) {
 		frames.add(frame);
+		return this;
+	}
+
+	public List<Initializer> getInitializations() {
+		return initializations;
+	}
+
+	public Simulation addInitialization(Initializer initializer) {
+		initializations.add(initializer);
 		return this;
 	}
 }
