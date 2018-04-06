@@ -19,16 +19,6 @@ public class FlowBoxTest {
 		Assert.assertEquals("result should be", FlowBox.NoSimulationDefinitionGiven.class, result.getClass());
 	}
 
-	/**
-	 * This test verifies that FlowBox is coming to an end.
-	 */
-	@Test
-	public void testDoneResultIsGiven() {
-		Result result = new FlowBox().runFromStream(getClass().getClassLoader().getResourceAsStream("examples/single-particle-floating-with-gravity.2d.xml"));
-		Assert.assertNotNull("result should not be null", result);
-		Assert.assertEquals("result should be", new Result(false, "Done"), result);
-	}
-
 	@Test
 	public void testSimulationDefinitionNotParsableResultIsGiven() throws UnsupportedEncodingException {
 		// use a XML-stream with no root element.

@@ -44,34 +44,34 @@ public class XmlOutline2DToMeshConverter implements Converter<XmlOutline,Mesh> {
 					.setProperty("name", section.getName())
 					.addVertex(new Vertex(new Vector(v1.getX(), v1.getY(), -0.5)))
 					.addVertex(new Vertex(new Vector(v2.getX(), v2.getY(), -0.5)))
-					.addVertex(new Vertex(new Vector(v2.getX(), v2.getY(),  0.5)))
-					.addVertex(new Vertex(new Vector(v1.getX(), v1.getY(),  0.5))));
+					.addVertex(new Vertex(new Vector(v2.getX(), v2.getY(), 0.5)))
+					.addVertex(new Vertex(new Vector(v1.getX(), v1.getY(), 0.5))));
 			}
-			/* the sections with the edges may be defined in random order.
-			 * A lookupMap help in finding the adjacent edges. */
-			final Map<Vertex,List<Edge<?>>> edgeLookupMap = buildEdgeLookupMap(edges);
-			// make sure that for each vertex two edge exist.
-			for (Map.Entry<Vertex,List<Edge<?>>> entry : edgeLookupMap.entrySet()) {
-				final int size = entry.getValue().size();
-				if (size < 2) {
-					//throw new IllegalArgumentException("the mesh definition is not complete");
-					return mesh;
-				} else if (size > 2) {
-					//throw new IllegalArgumentException("the mesh definition is ambiguous, use a 3D-definition instead");
-					return mesh;
-				}
+		}
+		/* the sections with the edges may be defined in random order.
+		 * A lookupMap help in finding the adjacent edges. */
+		final Map<Vertex,List<Edge<?>>> edgeLookupMap = buildEdgeLookupMap(edges);
+		// make sure that for each vertex two edge exist.
+		for (Map.Entry<Vertex,List<Edge<?>>> entry : edgeLookupMap.entrySet()) {
+			final int size = entry.getValue().size();
+			if (size < 2) {
+				//throw new IllegalArgumentException("the mesh definition is not complete");
+				return mesh;
+			} else if (size > 2) {
+				//throw new IllegalArgumentException("the mesh definition is ambiguous, use a 3D-definition instead");
+				return mesh;
 			}
-			// build the two faces.
-			if (!edgeLookupMap.isEmpty()) {
-				final Face zNeg = new Face().setProperty("name", "zNeg");
-				final Face zPos = new Face().setProperty("name", "zPos");
-				for (Vertex vertex : getVerticesFromMap(edgeLookupMap, edgeLookupMap.keySet().iterator().next())) {
-					zNeg.addVertex(new Vertex(new Vector(vertex.getPosition()).set(2, -0.5)));
-					zPos.addVertex(new Vertex(new Vector(vertex.getPosition()).set(2, +0.5)));
-				}
-				mesh.addFace(zNeg);
-				mesh.addFace(zPos);
+		}
+		// build the two faces.
+		if (!edgeLookupMap.isEmpty()) {
+			final Face zNeg = new Face().setProperty("name", "zNeg");
+			final Face zPos = new Face().setProperty("name", "zPos");
+			for (Vertex vertex : getVerticesFromMap(edgeLookupMap, edgeLookupMap.keySet().iterator().next())) {
+				zNeg.addVertex(new Vertex(new Vector(vertex.getPosition()).set(2, -0.5)));
+				zPos.addVertex(new Vertex(new Vector(vertex.getPosition()).set(2, +0.5)));
 			}
+			mesh.addFace(zNeg);
+			mesh.addFace(zPos);
 		}
 		return mesh;
 	}
