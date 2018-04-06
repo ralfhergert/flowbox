@@ -1,5 +1,6 @@
 package de.ralfhergert.flowbox.xml.v1;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -27,6 +28,7 @@ public class XmlSimulation {
 	@XmlElement
 	private XmlOutline outline;
 
+	@Valid
 	@XmlElementWrapper(name = "initialization")
 	@XmlElements({
 		@XmlElement(name = "fillOutlineWithParticles", type = XmlFillOutlineWithParticles.class),
