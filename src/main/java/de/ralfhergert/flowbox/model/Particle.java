@@ -9,19 +9,25 @@ import org.alltiny.math.vector.Vector;
 public class Particle {
 
 	private final double mass;
+	private final double specificGasConstant;
 
 	private final double temperature;
 
 	private Vertex position = new Vertex(new Vector(3));
 	private Vector velocity = new Vector(3);
 
-	public Particle(double mass, double temperature) {
+	public Particle(double mass, double specificGasConstant, double temperature) {
 		this.mass = mass;
+		this.specificGasConstant = specificGasConstant;
 		this.temperature = temperature;
 	}
 
 	public double getMass() {
 		return mass;
+	}
+
+	public double getSpecificGasConstant() {
+		return specificGasConstant;
 	}
 
 	public double getTemperature() {

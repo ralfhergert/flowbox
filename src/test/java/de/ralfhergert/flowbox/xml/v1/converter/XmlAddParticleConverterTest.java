@@ -22,11 +22,13 @@ public class XmlAddParticleConverterTest {
 		AddParticle addParticle = new XmlAddParticleConverter()
 			.convert(new XmlAddParticle()
 				.setMass(2)
+				.setSpecificGasConstant(287)
 				.setTemperature(300)
 				.setPosition(new XmlVertex())
 				.setVelocity(new XmlVector()));
 		Assert.assertNotNull("fillOutlineWithParticles should not be null", addParticle);
 		Assert.assertEquals("mass should be", 2, addParticle.getMass(), 0.000001);
+		Assert.assertEquals("specificGasConstant should be", 287, addParticle.getSpecificGasConstant(), 0.000001);
 		Assert.assertEquals("temperature should be", 300, addParticle.getTemperature(), 0.000001);
 		Assert.assertNotNull("position should not be null", addParticle.getPosition());
 		Assert.assertNotNull("velocity should not be null", addParticle.getVelocity());

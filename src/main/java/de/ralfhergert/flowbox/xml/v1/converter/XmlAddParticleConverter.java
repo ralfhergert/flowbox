@@ -16,6 +16,7 @@ public class XmlAddParticleConverter implements Converter<XmlAddParticle,AddPart
 		}
 		AddParticle addParticle = new AddParticle(
 			xmlAddParticle.getMass(),
+			xmlAddParticle.getSpecificGasConstant(),
 			xmlAddParticle.getTemperature()
 		);
 		addParticle.setPosition(new XmlVertexConverter().convert(xmlAddParticle.getPosition()));

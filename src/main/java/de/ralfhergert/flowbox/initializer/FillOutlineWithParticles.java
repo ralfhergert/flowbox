@@ -25,22 +25,28 @@ public class FillOutlineWithParticles implements Initializer {
 
 	private final double density;
 
+	private final double specificGasConstant;
+
 	private final double temperature;
 
 	private Vector velocity = new Vector(3);
 
-	public FillOutlineWithParticles(int numberOfParticles, double density, double temperature) {
+	public FillOutlineWithParticles(int numberOfParticles, double density, double specificGasConstant, double temperature) {
 		if (numberOfParticles <= 0) {
 			throw new IllegalArgumentException("number of particles must be greater than 0");
 		}
 		if (density < 0) {
 			throw new IllegalArgumentException("density must be greater than or equal 0");
 		}
+		if (specificGasConstant <= 0) {
+			throw new IllegalArgumentException("specificGasConstant must be greater than 0");
+		}
 		if (temperature < 0) {
 			throw new IllegalArgumentException("temperature must be greater than or equal 0");
 		}
 		this.numberOfParticles = numberOfParticles;
 		this.density = density;
+		this.specificGasConstant = specificGasConstant;
 		this.temperature = temperature;
 	}
 
@@ -92,7 +98,7 @@ public class FillOutlineWithParticles implements Initializer {
 			if (outline.calcVertexLocation(vertex) != VertexLocation.InBounds) {
 				continue;
 			}
-			frame.addParticle(new Particle(massPerParticle, temperature)
+			frame.addParticle(new Particle(massPerParticle, specificGasConstant, temperature)
 				.setPosition(vertex));
 		}
 		return new Result(false, "Done");

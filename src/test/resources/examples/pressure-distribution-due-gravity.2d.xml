@@ -21,6 +21,7 @@
 		<fillOutlineWithParticles
 			numberOfParticles="100"
 			density="1.2041"
+			specificGasConstant="287"
 			temperature="293">
 			<velocity x="0" y="0" z="0"/>
 		</fillOutlineWithParticles>

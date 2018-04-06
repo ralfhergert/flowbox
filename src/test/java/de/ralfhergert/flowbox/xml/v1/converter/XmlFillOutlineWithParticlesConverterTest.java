@@ -22,6 +22,7 @@ public class XmlFillOutlineWithParticlesConverterTest {
 			.convert(new XmlFillOutlineWithParticles()
 				.setNumberOfParticles(42)
 				.setDensity(2)
+				.setSpecificGasConstant(287)
 				.setTemperature(300)
 				.setVelocity(new XmlVector()));
 		Assert.assertNotNull("fillOutlineWithParticles should not be null", fillOutlineWithParticles);

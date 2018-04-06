@@ -17,6 +17,10 @@ public class XmlAddParticle extends XmlInitialization {
 	@XmlAttribute(required = true)
 	private double mass;
 
+	@Positive
+	@XmlAttribute(required = true)
+	private double specificGasConstant;
+
 	@PositiveOrZero
 	@XmlAttribute(required = true)
 	private double temperature;
@@ -33,6 +37,15 @@ public class XmlAddParticle extends XmlInitialization {
 
 	public XmlAddParticle setMass(double mass) {
 		this.mass = mass;
+		return this;
+	}
+
+	public double getSpecificGasConstant() {
+		return specificGasConstant;
+	}
+
+	public XmlAddParticle setSpecificGasConstant(double specificGasConstant) {
+		this.specificGasConstant = specificGasConstant;
 		return this;
 	}
 

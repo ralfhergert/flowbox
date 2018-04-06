@@ -22,6 +22,10 @@ public class XmlFillOutlineWithParticles extends XmlInitialization {
 	@XmlAttribute(required = true)
 	private double density;
 
+	@Positive
+	@XmlAttribute(required = true)
+	private double specificGasConstant;
+
 	@PositiveOrZero
 	@XmlAttribute(required = true)
 	private double temperature;
@@ -44,6 +48,15 @@ public class XmlFillOutlineWithParticles extends XmlInitialization {
 
 	public XmlFillOutlineWithParticles setDensity(double density) {
 		this.density = density;
+		return this;
+	}
+
+	public double getSpecificGasConstant() {
+		return specificGasConstant;
+	}
+
+	public XmlFillOutlineWithParticles setSpecificGasConstant(double specificGasConstant) {
+		this.specificGasConstant = specificGasConstant;
 		return this;
 	}
 

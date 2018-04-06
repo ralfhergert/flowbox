@@ -19,25 +19,33 @@ public class AddParticle implements Initializer {
 	private static final Logger LOG = LoggerFactory.getLogger(AddParticle.class);
 
 	private final double mass;
-
+	private final double specificGasConstant;
 	private final double temperature;
 
 	private Vertex position = new Vertex(new Vector(3));
 	private Vector velocity = new Vector(3);
 
-	public AddParticle(double mass, double temperature) {
+	public AddParticle(double mass, double specificGasConstant, double temperature) {
 		if (mass <= 0) {
 			throw new IllegalArgumentException("mass must be greater than 0");
+		}
+		if (specificGasConstant <= 0) {
+			throw new IllegalArgumentException("specificGasConstant must be greater than 0");
 		}
 		if (temperature < 0) {
 			throw new IllegalArgumentException("temperature must be greater than or equal 0");
 		}
 		this.mass = mass;
+		this.specificGasConstant = specificGasConstant;
 		this.temperature = temperature;
 	}
 
 	public double getMass() {
 		return mass;
+	}
+
+	public double getSpecificGasConstant() {
+		return specificGasConstant;
 	}
 
 	public double getTemperature() {
@@ -76,7 +84,7 @@ public class AddParticle implements Initializer {
 		} else {
 			frame = frames.get(frames.size() - 1);
 		}
-		Particle particle = new Particle(mass, temperature)
+		Particle particle = new Particle(mass, specificGasConstant, temperature)
 			.setPosition(position)
 			.setVelocity(velocity);
 		LOG.debug("adding particle {} to frame {}", particle, frame);

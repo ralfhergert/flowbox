@@ -16,29 +16,34 @@ public class FillOutlineWithParticlesTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFillOutlineWithParticlesRejectsZeroParticles() {
-		new FillOutlineWithParticles(0, 1, 1);
+		new FillOutlineWithParticles(0, 1, 1, 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFillOutlineWithParticlesRejectsNegativeDensity() {
-		new FillOutlineWithParticles(1, -1, 1);
+		new FillOutlineWithParticles(1, -1, 1, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void testFillOutlineWithParticlesRejectsZeroGasConstant() {
+		new FillOutlineWithParticles(1, 1, 0, 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testFillOutlineWithParticlesRejectsNegativeTemperature() {
-		new FillOutlineWithParticles(1, 1, -1);
+		new FillOutlineWithParticles(1, 1, 1, -1);
 	}
 
 	@Test
 	public void testFillingNoSimulation() {
-		Result result = new FillOutlineWithParticles(1, 0, 0).applyTo(null);
+		Result result = new FillOutlineWithParticles(1, 0, 1, 0).applyTo(null);
 		Assert.assertFalse("result should not be a success", result.isSuccess());
 		Assert.assertEquals("result should be", FillOutlineWithParticles.NoSimulationGiven.class, result.getClass());
 	}
 
 	@Test
 	public void testFillingEmptySimulation() {
-		Result result = new FillOutlineWithParticles(1, 0, 0).applyTo(new Simulation());
+		Result result = new FillOutlineWithParticles(1, 0, 1, 0).applyTo(new Simulation());
 		Assert.assertFalse("result should not be a success", result.isSuccess());
 		Assert.assertEquals("result should be", FillOutlineWithParticles.NoSimulationOutlineGiven.class, result.getClass());
 	}
@@ -51,7 +56,7 @@ public class FillOutlineWithParticlesTest {
 				.addVertex(new Vertex(new Vector(0, 0, 0)))
 				.addVertex(new Vertex(new Vector(1, 0, 0)))
 				.addVertex(new Vertex(new Vector(0, 1, 0)))));
-		Result result = new FillOutlineWithParticles(1, 0, 0).applyTo(simulation);
+		Result result = new FillOutlineWithParticles(1, 0, 1, 0).applyTo(simulation);
 		Assert.assertFalse("result should not be a success", result.isSuccess());
 		Assert.assertEquals("result should be", FillOutlineWithParticles.SimulationOutlinePermeable.class, result.getClass());
 	}
@@ -87,7 +92,7 @@ public class FillOutlineWithParticlesTest {
 	public void testFillingSimulationWithCubeOutlineWithNoFrames() {
 		// create a simulation with a cube outline.
 		final Simulation simulation = new Simulation().setOutline(MeshTest.createCube(1));
-		new FillOutlineWithParticles(10, 1.2, 293).applyTo(simulation);
+		new FillOutlineWithParticles(10, 1.2, 287, 293).applyTo(simulation);
 		Assert.assertNotNull("simulation should now have frames", simulation.getFrames());
 		Assert.assertEquals("simulation should now have one frame", 1, simulation.getFrames().size());
 		final Frame frame = simulation.getFrames().get(0);
@@ -98,6 +103,7 @@ public class FillOutlineWithParticlesTest {
 		for (Particle particle : frame.getParticles()) {
 			Assert.assertNotNull("particle should not be null", particle);
 			Assert.assertEquals("particle's mass should be", 0.12, particle.getMass(), 0.00001);
+			Assert.assertEquals("particle's specificGasConstant should be", 287, particle.getSpecificGasConstant(), 0.00001);
 			Assert.assertEquals("particle's temperature should be", 293, particle.getTemperature(), 0.00001);
 			Assert.assertNotNull("particle's position should not be null", particle.getPosition());
 			Assert.assertEquals("particle should be in bounds", VertexLocation.InBounds, simulation.getOutline().calcVertexLocation(particle.getPosition()));
@@ -113,7 +119,7 @@ public class FillOutlineWithParticlesTest {
 			.appendFrame(new Frame(1));
 		Assert.assertNotNull("simulation should have frames", simulation.getFrames());
 		Assert.assertEquals("simulation should now have one frame", 1, simulation.getFrames().size());
-		new FillOutlineWithParticles(10, 1.2, 293).applyTo(simulation);
+		new FillOutlineWithParticles(10, 1.2, 287, 293).applyTo(simulation);
 		Assert.assertEquals("simulation should now have one frame", 1, simulation.getFrames().size());
 		final Frame frame = simulation.getFrames().get(0);
 		Assert.assertNotNull("frame should not be null", frame);
