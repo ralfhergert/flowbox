@@ -223,7 +223,7 @@ public class Mesh {
 			for (int i = 2; i < sphericalVertices.size(); i++) {
 				sphericalMesh.addTriangle((SphericalFace)new SphericalFace()
 					.addVertex(sphericalVertices.get(0))
-					.addVertex(sphericalVertices.get(i-1))
+					.addVertex(sphericalVertices.get(i - 1))
 					.addVertex(sphericalVertices.get(i))
 				);
 			}
