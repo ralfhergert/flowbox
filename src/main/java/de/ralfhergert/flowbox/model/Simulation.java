@@ -17,6 +17,8 @@ public class Simulation {
 	private final List<Frame> frames = new ArrayList<>();
 	private final List<Initializer> initializations = new ArrayList<>();
 
+	private SimulationState state = SimulationState.Created;
+
 	public Mesh getOutline() {
 		return outline;
 	}
@@ -30,7 +32,18 @@ public class Simulation {
 		return Collections.unmodifiableList(frames);
 	}
 
+	public Frame getLastFrame() {
+		if (frames.isEmpty()) {
+			return null;
+		}
+		return frames.get(frames.size() - 1);
+	}
+
 	public Simulation appendFrame(Frame frame) {
+		if (frame == null) {
+			throw new IllegalArgumentException("frame can not be null");
+		}
+		frame.setSimulation(this);
 		frames.add(frame);
 		return this;
 	}
@@ -41,6 +54,15 @@ public class Simulation {
 
 	public Simulation addInitialization(Initializer initializer) {
 		initializations.add(initializer);
+		return this;
+	}
+
+	public SimulationState getState() {
+		return state;
+	}
+
+	public Simulation setState(SimulationState state) {
+		this.state = state;
 		return this;
 	}
 }

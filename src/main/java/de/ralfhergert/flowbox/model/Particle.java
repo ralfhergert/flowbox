@@ -1,5 +1,6 @@
 package de.ralfhergert.flowbox.model;
 
+import de.ralfhergert.math.geom.Mesh;
 import de.ralfhergert.math.geom.Vertex;
 import org.alltiny.math.vector.Vector;
 
@@ -15,6 +16,8 @@ public class Particle {
 
 	private Vertex position = new Vertex(new Vector(3));
 	private Vector velocity = new Vector(3);
+
+	private Mesh outline;
 
 	public Particle(double mass, double specificGasConstant, double temperature) {
 		this.mass = mass;
@@ -49,6 +52,15 @@ public class Particle {
 
 	public Particle setVelocity(Vector velocity) {
 		this.velocity = velocity;
+		return this;
+	}
+
+	public Mesh getOutline() {
+		return outline;
+	}
+
+	public Particle setOutline(Mesh outline) {
+		this.outline = outline;
 		return this;
 	}
 }

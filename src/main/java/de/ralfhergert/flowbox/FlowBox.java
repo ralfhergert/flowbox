@@ -2,8 +2,11 @@ package de.ralfhergert.flowbox;
 
 import de.ralfhergert.flowbox.initializer.Initializer;
 import de.ralfhergert.flowbox.model.ExceptionalResult;
+import de.ralfhergert.flowbox.model.Frame;
 import de.ralfhergert.flowbox.model.Result;
 import de.ralfhergert.flowbox.model.Simulation;
+import de.ralfhergert.flowbox.model.SimulationState;
+import de.ralfhergert.flowbox.worker.FrameClusterer;
 import de.ralfhergert.flowbox.xml.v1.XmlParser;
 import de.ralfhergert.flowbox.xml.v1.XmlSimulation;
 import de.ralfhergert.flowbox.xml.v1.converter.XmlSimulationToSimulationConverter;
@@ -61,6 +64,21 @@ public class FlowBox {
 			for (Initializer initializer : simulation.getInitializations()) {
 				initializer.applyTo(simulation);
 			}
+		}
+		LOG.trace("starting simulation");
+		simulation.setState(SimulationState.Running);
+		while (simulation.getState() == SimulationState.Running) {
+			Frame frame = simulation.getLastFrame();
+			if (frame == null) {
+				LOG.warn("simulation has no frames: ending simulation");
+				simulation.setState(SimulationState.Finished);
+				continue;
+			}
+			if (!frame.isClustered()) {
+				new FrameClusterer().clusterFrame(frame);
+			}
+			// preliminary end of simulation.
+			simulation.setState(SimulationState.Finished);
 		}
 		return new Result(false, "Done");
 	}

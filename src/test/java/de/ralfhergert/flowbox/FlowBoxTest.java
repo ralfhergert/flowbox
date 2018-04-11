@@ -56,4 +56,22 @@ public class FlowBoxTest {
 		Assert.assertNotNull("result should not be null", result);
 		Assert.assertEquals("result should be", FlowBox.SimulationOutlineIsLeaking.class, result.getClass());
 	}
+
+	@Test
+	public void testSimulationWithNoFramesEnds() throws UnsupportedEncodingException {
+		// use a simulation with a valid outline but no initialization.
+		Result result = new FlowBox().runFromStream(new ByteArrayInputStream(("<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+			"<simulation dimensions=\"2\">" +
+			"  <outline>" +
+			"    <section>\n" +
+			"      <edge><vertex x=\"-0.5\" y=\"-0.5\"/><vertex x=\"+0.5\" y=\"-0.5\"/></edge>\n" +
+			"      <edge><vertex x=\"+0.5\" y=\"-0.5\"/><vertex x=\"+0.5\" y=\"+0.5\"/></edge>\n" +
+			"      <edge><vertex x=\"+0.5\" y=\"+0.5\"/><vertex x=\"-0.5\" y=\"+0.5\"/></edge>\n" +
+			"      <edge><vertex x=\"-0.5\" y=\"+0.5\"/><vertex x=\"-0.5\" y=\"-0.5\"/></edge>\n" +
+			"    </section>\n" +
+			"  </outline>" +
+			"</simulation>").getBytes("UTF-8")));
+		Assert.assertNotNull("result should not be null", result);
+		Assert.assertEquals("result should be", new Result(false, "Done"), result);
+	}
 }

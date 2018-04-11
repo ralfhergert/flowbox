@@ -10,8 +10,10 @@ import java.util.List;
 public class Frame {
 
 	private final long timestampNs;
-
 	private final List<Particle> particles = new ArrayList<>();
+
+	private Simulation simulation;
+	private boolean isClustered = false;
 
 	public Frame(long timestampNs) {
 		this.timestampNs = timestampNs;
@@ -27,6 +29,23 @@ public class Frame {
 
 	public Frame addParticle(Particle particle) {
 		particles.add(particle);
+		return this;
+	}
+
+	public Simulation getSimulation() {
+		return simulation;
+	}
+
+	public void setSimulation(Simulation simulation) {
+		this.simulation = simulation;
+	}
+
+	public boolean isClustered() {
+		return isClustered;
+	}
+
+	public Frame setClustered(boolean clustered) {
+		isClustered = clustered;
 		return this;
 	}
 }
