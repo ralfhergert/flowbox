@@ -31,6 +31,14 @@ public class Mesh {
 		return Collections.unmodifiableList(faces);
 	}
 
+	public Set<Vertex> getVertices() {
+		final Set<Vertex> vertices = new HashSet<>();
+		for (Face face : faces) {
+			vertices.addAll(face.getVertices());
+		}
+		return vertices;
+	}
+
 	/**
 	 * This method builds a lookup map for all edges in this mesh.
 	 * @see #isImpermeable()
