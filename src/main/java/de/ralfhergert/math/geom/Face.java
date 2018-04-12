@@ -158,4 +158,48 @@ public class Face {
 			.setMin(new Vector(minX, minY, minZ))
 			.setMax(new Vector(maxX, maxY, maxZ));
 	}
+
+	/**
+	 * This method will cut off the parts of the current face which are offside the given plane.
+	 */
+	public Face intersect(Plane plane) {
+		if (plane == null) {
+			return null;
+		}
+		Face face = new Face();
+		// copy all properties.
+		face.properties.putAll(properties);
+		// check the vertices.
+		Vertex previousVertex = vertices.size() > 1 ? vertices.get(vertices.size() - 1) : null;
+		VertexLocation previousVertexLocation = previousVertex != null ? plane.calcVertexLocation(previousVertex) : null;
+		for (Vertex vertex : vertices) {
+			VertexLocation currentVertexLocation = plane.calcVertexLocation(vertex);
+			if (currentVertexLocation != VertexLocation.OutBounds) {
+				if (previousVertexLocation == VertexLocation.OutBounds) {
+					face.addVertex(plane.intersect(new Edge(previousVertex, vertex)));
+				}
+				face.addVertex(vertex);
+			} else if (previousVertex != null && previousVertexLocation != VertexLocation.OutBounds) {
+				face.addVertex(plane.intersect(new Edge(previousVertex, vertex)));
+			}
+			previousVertex = vertex;
+			previousVertexLocation = currentVertexLocation;
+		}
+		return face;
+	}
+
+	public Face projectOn(Plane plane) {
+		if (plane == null) {
+			return null;
+		}
+		Face face = new Face();
+		// copy all properties.
+		face.properties.putAll(properties);
+		// calc all vertices
+		for (Vertex vertex : vertices) {
+			Vector fromPlaneToVertex = vertex.getPosition().sub(plane.getPosition().getPosition());
+			face.addVertex(new Vertex(vertex.getPosition().sub(fromPlaneToVertex.projectOn(plane.getNormal()))));
+		}
+		return face;
+	}
 }

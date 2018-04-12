@@ -258,4 +258,28 @@ public class Mesh {
 		}
 		return bounds;
 	}
+
+	/**
+	 * This method intersects the current mesh with the given plane returning a new mesh.
+	 */
+	public Mesh intersect(Plane plane) {
+		if (plane == null) {
+			return null;
+		}
+		final Plane offsidePlane = new Plane(plane.getPosition(), plane.getNormal().scale(-1));
+		final Mesh intersection = new Mesh();
+		for (Face face : faces) {
+			final Face offsideFace = face.intersect(offsidePlane);
+			if (offsideFace == null || offsideFace.getVertices().isEmpty()) { // no offsideFace exist
+				intersection.addFace(face);
+			} else {
+				final Face intersectedFace = face.intersect(plane);
+				if (intersectedFace != null && !intersectedFace.getVertices().isEmpty()) {
+					intersection.addFace(face.intersect(plane));
+				}
+				intersection.addFace(offsideFace.projectOn(plane));
+			}
+		}
+		return intersection;
+	}
 }

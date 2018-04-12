@@ -472,4 +472,18 @@ public class MeshTest {
 		Assert.assertEquals("maxY value should be", 1, bounds.getMax().get(1), 0.000001);
 		Assert.assertEquals("maxZ value should be", 1, bounds.getMax().get(2), 0.000001);
 	}
+
+	@Test
+	public void testIntersectionWithNullPlane() {
+		Assert.assertNull("intersection with null results in null", new Mesh().intersect(null));
+	}
+
+	@Test
+	public void testIntersectionOn3By3Cube() {
+		final Mesh mesh = createCube(3).intersect(new Plane(new Vertex(new Vector(1, 0, 0)), new Vector(-1, 0, 0)));
+		Assert.assertNotNull("intersected mesh should not be null", mesh);
+		Assert.assertTrue("intersected mesh should be consistent", mesh.isConsistent());
+		Assert.assertTrue("intersected mesh should be impermeable", mesh.isImpermeable());
+		Assert.assertEquals("volume of intersected mesh should be", 9, mesh.calcVolume(), 0.000001);
+	}
 }

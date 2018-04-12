@@ -200,4 +200,76 @@ public class FaceTest {
 		Bounds bounds = new Face().getBounds();
 		Assert.assertNull("bounds should be null", bounds);
 	}
+
+	@Test
+	public void testIntersectionWithNullPlaneIsNull() {
+		Assert.assertNull("intersecting with null is null", new Face().intersect(null));
+	}
+
+	@Test
+	public void testIntersectionWithPlaneWithFirstVertexInBounds() {
+		final Face face = new Face()
+			.addVertex(new Vertex(new Vector(1, 0, 0)))
+			.addVertex(new Vertex(new Vector(-1, 1, 0)))
+			.addVertex(new Vertex(new Vector(-1, -1, 0)))
+			.intersect(new Plane(new Vertex(new Vector(3)), new Vector(1, 0, 0)));
+		Assert.assertNotNull("intersected face should not be null", face);
+		Assert.assertEquals("number of vertices", 3, face.getVertices().size());
+		Assert.assertEquals("vertex 2 position", new Vector(1, 0, 0), face.getVertices().get(1).getPosition());
+		Assert.assertEquals("vertex 3 position", new Vector(0, 0.5, 0), face.getVertices().get(2).getPosition());
+		Assert.assertEquals("vertex 1 position", new Vector(0, -0.5, 0), face.getVertices().get(0).getPosition());
+	}
+
+	@Test
+	public void testIntersectionWithPlaneWithFirstVertexOutOfBounds() {
+		final Face face = new Face()
+			.addVertex(new Vertex(new Vector(1, 0, 0)))
+			.addVertex(new Vertex(new Vector(-1, 1, 0)))
+			.addVertex(new Vertex(new Vector(-1, -1, 0)))
+			.intersect(new Plane(new Vertex(new Vector(3)), new Vector(-1, 0, 0)));
+		Assert.assertNotNull("intersected face should not be null", face);
+		Assert.assertEquals("number of vertices", 4, face.getVertices().size());
+		Assert.assertEquals("vertex 2 position", new Vector(0, 0.5, 0), face.getVertices().get(1).getPosition());
+		Assert.assertEquals("vertex 3 position", new Vector(-1, 1, 0), face.getVertices().get(2).getPosition());
+		Assert.assertEquals("vertex 4 position", new Vector(-1, -1, 0), face.getVertices().get(3).getPosition());
+		Assert.assertEquals("vertex 1 position", new Vector(0, -0.5, 0), face.getVertices().get(0).getPosition());
+	}
+
+	@Test
+	public void testIntersectionWithPlaneWithSingleVertexFaceInBounds() {
+		final Face face = new Face()
+			.addVertex(new Vertex(new Vector(1, 0, 0)))
+			.intersect(new Plane(new Vertex(new Vector(3)), new Vector(1, 0, 0)));
+		Assert.assertNotNull("intersected face should not be null", face);
+		Assert.assertEquals("number of vertices", 1, face.getVertices().size());
+		Assert.assertEquals("vertex 1 position", new Vector(1, 0, 0), face.getVertices().get(0).getPosition());
+	}
+
+	@Test
+	public void testIntersectionWithPlaneWithSingleVertexFaceOutOfBounds() {
+		final Face face = new Face()
+			.addVertex(new Vertex(new Vector(1, 0, 0)))
+			.intersect(new Plane(new Vertex(new Vector(3)), new Vector(-1, 0, 0)));
+		Assert.assertNotNull("intersected face should not be null", face);
+		Assert.assertEquals("number of vertices", 0, face.getVertices().size());
+	}
+
+	@Test
+	public void testProjectingOnNullPlaneIsNull() {
+		Assert.assertNull("projecting onto null plane is null", new Face().projectOn(null));
+	}
+
+	@Test
+	public void testProjectingOnPlane() {
+		final Face face = new Face()
+			.addVertex(new Vertex(new Vector(0, 0, 2)))
+			.addVertex(new Vertex(new Vector(1, 0, 7)))
+			.addVertex(new Vertex(new Vector(0, 1, 5)))
+			.projectOn(new Plane(new Vertex(new Vector(3)), new Vector(0, 0, 1)));
+		Assert.assertNotNull("projected face should not be null", face);
+		Assert.assertEquals("number of vertices", 3, face.getVertices().size());
+		Assert.assertEquals("vertex 1 position", new Vector(0, 0, 0), face.getVertices().get(0).getPosition());
+		Assert.assertEquals("vertex 2 position", new Vector(1, 0, 0), face.getVertices().get(1).getPosition());
+		Assert.assertEquals("vertex 3 position", new Vector(0, 1, 0), face.getVertices().get(2).getPosition());
+	}
 }
