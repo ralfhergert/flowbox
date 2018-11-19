@@ -270,11 +270,11 @@ public class Mesh {
 		final Mesh intersection = new Mesh();
 		for (Face face : faces) {
 			final Face offsideFace = face.intersect(offsidePlane);
-			if (offsideFace == null || offsideFace.getVertices().isEmpty()) { // no offsideFace exist
+			if (offsideFace == null || offsideFace.getNormalFast() == null) { // no offsideFace exist
 				intersection.addFace(face);
 			} else {
 				final Face intersectedFace = face.intersect(plane);
-				if (intersectedFace != null && !intersectedFace.getVertices().isEmpty()) {
+				if (intersectedFace != null && intersectedFace.getNormalFast() != null) {
 					intersection.addFace(face.intersect(plane));
 				}
 				intersection.addFace(offsideFace.projectOn(plane));

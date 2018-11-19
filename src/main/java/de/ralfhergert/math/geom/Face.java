@@ -90,6 +90,25 @@ public class Face {
 		return length > 0 ? areaVector.scale(1 / length) : null;
 	}
 
+	/**
+	 * This method calculates the normal of this face by not relying on the area vector.
+	 */
+	public Vector getNormalFast() {
+		if (vertices.size() > 1) {
+			final Vector p0 = vertices.get(0).getPosition();
+			for (int i = 2; i < vertices.size(); i++) {
+				Vector p1 = vertices.get(i - 1).getPosition().sub(p0);
+				Vector p2 = vertices.get(i).getPosition().sub(p0);
+				final Vector normal = p1.cross(p2);
+				final double length = normal.getLength();
+				if (length > 0) {
+					return normal.scale(1 / length);
+				}
+			}
+		}
+		return null;
+	}
+
 	public Map<UnidirectionalEdge,Edge<Face>> getUnidirectionalEdgeLookup() {
 		Map<UnidirectionalEdge,Edge<Face>> lookupMap = new HashMap<>();
 		for (Edge<Face> edge : getEdges()) {
