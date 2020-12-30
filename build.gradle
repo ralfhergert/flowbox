@@ -44,9 +44,11 @@ repositories {
 dependencies {
 	//compile 'alltiny:alltiny-math-vector:1.1.0'
 	compile 'javax.validation:validation-api:2.0.1.Final'
+	compile 'javax.xml.bind:jaxb-api:2.3.1'
 	compile 'org.slf4j:slf4j-api:1.7.+'
 
 	runtime 'org.glassfish:javax.el:3.0.0' // necessary for hibernate-validator.
+	runtime 'org.glassfish.jaxb:jaxb-runtime:2.3.1'
 	runtime 'org.hibernate.validator:hibernate-validator:6.0.8.Final'
 	runtime 'org.slf4j:slf4j-simple:1.7.+'
 
